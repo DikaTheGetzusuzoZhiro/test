@@ -97,10 +97,20 @@
 
     <section id="ulasan" class="section section-wrap reviews-section">
       <div class="section-head"><div><span class="eyebrow">ULASAN</span><h2>Apa kata <span>customer TAMA?</span></h2></div></div>
-      <div class="review-grid">
+      <div class="review-grid" id="reviewList">
         <article class="review"><div class="stars">★★★★★</div><p>“Layout-nya gampang dipahami. Cari nominal yang saya mau juga cepat.”</p><strong>Riz***ng</strong><span>Top Up Robux</span></article>
         <article class="review"><div class="stars">★★★★★</div><p>“Checkout sederhana dan informasi harganya jelas. Enak dipakai dari HP.”</p><strong>Nab***</strong><span>Robux</span></article>
         <article class="review"><div class="stars">★★★★★</div><p>“Sudah beberapa kali order. Tampilan bersih dan prosesnya tidak ribet.”</p><strong>Dim***ro</strong><span>Robux</span></article>
+      </div>
+      <div class="review-form-wrap">
+        <div><span class="eyebrow">TULIS ULASAN</span><h3>Bagikan pengalamanmu</h3><p>Ulasan dikirim ke admin terlebih dahulu sebelum tampil di website.</p></div>
+        <form id="reviewForm" class="review-form">
+          <input name="name" placeholder="Nama / inisial" maxlength="30" required />
+          <select name="rating" required><option value="5">★★★★★ — Sangat puas</option><option value="4">★★★★☆ — Puas</option><option value="3">★★★☆☆ — Cukup</option><option value="2">★★☆☆☆ — Kurang</option><option value="1">★☆☆☆☆ — Tidak puas</option></select>
+          <input name="product" placeholder="Produk yang dibeli" value="Robux" maxlength="40" />
+          <textarea name="text" rows="4" maxlength="240" placeholder="Tulis pengalaman kamu..." required></textarea>
+          <button class="btn btn-primary" type="submit">Kirim Ulasan</button>
+        </form>
       </div>
     </section>
 
@@ -114,13 +124,23 @@
     <div class="section-wrap footer-grid">
       <div><a class="brand footer-brand" href="#beranda"><span class="brand-mark">T</span><span>TAMA</span></a><p>Platform top up Roblox dengan tampilan sederhana, cepat, dan nyaman.</p></div>
       <div><h4>Navigasi</h4><a href="#robux">Beli Robux</a><a href="#layanan">Layanan</a><a href="#ulasan">Ulasan</a></div>
-      <div><h4>Bantuan</h4><a href="#cek">Cek Transaksi</a><a href="#bantuan">FAQ</a><a href="https://wa.me/6280000000000" target="_blank" rel="noreferrer">WhatsApp</a></div>
+      <div><h4>Bantuan</h4><a href="#cek">Cek Transaksi</a><a href="#bantuan">FAQ</a><a href="https://wa.me/6280000000000" target="_blank" rel="noreferrer">WhatsApp</a><a href="#" id="adminOpen">Admin Panel</a></div>
       <div><h4>Pembayaran</h4><div class="payments"><span>QRIS</span><span>Transfer</span><span>E-Wallet</span></div></div>
     </div>
     <div class="section-wrap footer-bottom"><span>© 2026 TAMA. All Rights Reserved.</span><span>Roblox adalah merek dagang Roblox Corporation.</span></div>
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal" id="checkoutModal"><div class="modal-card"><button class="modal-close" id="closeCheckout">×</button><span class="eyebrow">CHECKOUT</span><h2>Pesanan kamu</h2><div class="checkout-product" id="checkoutProduct">-</div><input placeholder="Username Roblox" /><button class="btn btn-primary" id="checkoutBtn">Lanjut Pembayaran</button><small>Demo frontend — sambungkan payment gateway untuk transaksi nyata.</small></div></div>
+  <div class="modal" id="adminModal"><div class="modal-card admin-modal-card"><button class="modal-close" id="closeAdmin">×</button>
+    <div id="adminLogin"><span class="eyebrow">ADMIN</span><h2>Masuk Admin Panel</h2><form id="adminLoginForm" class="admin-login"><input id="adminPassword" type="password" placeholder="Password admin" required /><button class="btn btn-primary">Masuk</button></form><small>Password demo default: TAMA2026</small></div>
+    <div id="adminDashboard" class="hidden"><div class="admin-header"><div><span class="eyebrow">DASHBOARD</span><h2>TAMA Admin</h2></div><span class="badge">Pending: <b id="pendingCount">0</b></span></div>
+      <div class="admin-tabs"><span>Moderasi Ulasan</span><span>Produk</span><span>Pengaturan</span></div>
+      <div class="admin-section"><h3>Ulasan User</h3><div id="adminReviews"></div></div>
+      <div class="admin-section"><div class="admin-section-title"><h3>Produk Robux</h3><button class="btn btn-primary small" id="addProduct">+ Tambah</button></div><div id="adminProducts"></div></div>
+      <div class="admin-section"><h3>Pengaturan</h3><input id="adminAnnouncement" placeholder="Announcement" /><input id="adminWhatsapp" placeholder="Nomor WhatsApp" /><button class="btn btn-primary" id="saveSettings">Simpan Pengaturan</button></div>
+    </div>
+  </div></div>
   <script src="script.js"></script>
 </body>
 </html>
