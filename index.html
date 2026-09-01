@@ -556,7 +556,6 @@
             font-weight: 900;
             box-shadow: 0 8px 20px #ff315d44;
         }
-        /* badge QRIS */
         .service .qris-badge {
             position: absolute;
             bottom: 70px;
@@ -974,29 +973,88 @@
             font-weight: 700;
         }
 
-        /* QRIS */
+        /* QRIS - FULL tanpa bercak putih */
         .qris-box {
-            background: #fff;
+            background: transparent;
             border-radius: 16px;
-            padding: 16px;
-            margin: 18px 0 12px;
+            padding: 0;
+            margin: 18px 0 8px;
             text-align: center;
-            border: 1px solid var(--line);
+            border: none;
         }
         .qris-box img {
-            max-width: 100%;
-            height: auto;
-            max-height: 200px;
-            border-radius: 8px;
+            width: 100%;
+            max-height: 220px;
+            object-fit: contain;
+            display: block;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 1px solid var(--line);
+            transition: .2s;
+        }
+        .qris-box img:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 25px rgba(170, 43, 255, .25);
         }
         .qris-label {
             font-size: 9px;
-            color: #555;
+            color: var(--muted);
             margin-top: 6px;
             letter-spacing: .5px;
         }
-        body.light .qris-label {
-            color: #333;
+
+        /* Tombol unduh QRIS */
+        .btn-download-qris {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text);
+            background: rgba(170, 43, 255, .12);
+            border: 1px solid var(--line);
+            text-decoration: none;
+            cursor: pointer;
+            transition: .25s;
+            margin-top: 4px;
+        }
+        .btn-download-qris:hover {
+            background: rgba(170, 43, 255, .25);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        body.light .btn-download-qris {
+            color: #61118a;
+            background: #f0dcff;
+        }
+        body.light .btn-download-qris:hover {
+            background: #e0c4f5;
+        }
+
+        /* Zoom QRIS overlay */
+        .qris-zoom-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            background: rgba(0, 0, 0, .85);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            cursor: pointer;
+        }
+        .qris-zoom-overlay.open {
+            display: flex;
+        }
+        .qris-zoom-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .8);
         }
 
         /* Timer */
@@ -1031,7 +1089,7 @@
             }
         }
 
-        /* Upload */
+        /* Upload - dengan ikon SVG file */
         .upload-area {
             border: 2px dashed var(--line);
             border-radius: 14px;
@@ -1046,10 +1104,20 @@
             border-color: var(--primary);
             background: rgba(170, 43, 255, .06);
         }
-        .upload-area .icon {
-            font-size: 28px;
-            display: block;
+        .upload-area .file-icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
             margin-bottom: 6px;
+        }
+        .upload-area .file-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
         .upload-area .hint {
             font-size: 10px;
@@ -1530,10 +1598,13 @@
                 <span class="detail-value" id="modalPrice">Rp 25.000</span>
             </div>
 
-            <!-- QRIS -->
+            <!-- QRIS - FULL tanpa bercak putih + bisa diklik zoom + tombol download -->
             <div class="qris-box">
-                <img src="assets/layanan/qris.png" alt="QRIS Pembayaran" />
-                <div class="qris-label">Scan QRIS untuk membayar</div>
+                <img src="assets/layanan/qris.png" alt="QRIS Pembayaran" id="qrisImage" onclick="zoomQRIS()" />
+                <div class="qris-label">Klik gambar untuk memperbesar</div>
+                <div style="margin-top: 6px;">
+                    <a href="assets/layanan/qris.png" download="qris-tama.png" class="btn-download-qris">⬇ Unduh QRIS</a>
+                </div>
             </div>
 
             <!-- Timer -->
@@ -1542,9 +1613,16 @@
                 <span class="time" id="timerDisplay">10:00</span>
             </div>
 
-            <!-- Upload bukti -->
+            <!-- Upload bukti dengan ikon SVG file -->
             <div class="upload-area" id="uploadArea">
-                <span class="icon">⬆</span>
+                <div class="file-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+                        <path d="M14 2v6h6" />
+                        <path d="M12 18v-6" />
+                        <path d="M9 15l3-3 3 3" />
+                    </svg>
+                </div>
                 <div class="hint">Klik atau seret bukti transfer di sini</div>
                 <input type="file" id="fileInput" accept="image/*,.pdf,.jpg,.jpeg,.png" />
                 <div class="file-name" id="fileName"></div>
@@ -1559,6 +1637,11 @@
                 <button class="btn" id="modalConfirm" disabled>Konfirmasi ke WhatsApp</button>
             </div>
         </div>
+    </div>
+
+    <!-- ===== QRIS ZOOM OVERLAY ===== -->
+    <div class="qris-zoom-overlay" id="qrisZoom" onclick="closeZoomQRIS()">
+        <img src="assets/layanan/qris.png" alt="QRIS Perbesar" />
     </div>
 
     <script>
@@ -1691,9 +1774,26 @@
         }
 
         /* ============================================================
-           ============================================================
+           QRIS ZOOM
+           ============================================================ */
+        function zoomQRIS() {
+            document.getElementById('qrisZoom').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeZoomQRIS() {
+            document.getElementById('qrisZoom').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeZoomQRIS();
+            }
+        });
+
+        /* ============================================================
            ORDER MODAL LOGIC
-           ============================================================
            ============================================================ */
 
         const modalOverlay = document.getElementById('orderModal');
@@ -1711,19 +1811,15 @@
         let selectedService = '';
         let selectedPrice = 25000;
         let timerInterval = null;
-        let timeLeft = 600; // 10 menit
-        let isPaid = false;
+        let timeLeft = 600;
         let uploadedFile = null;
 
-        // ---- Open modal ----
         function openModal(service, price) {
             selectedService = service;
             selectedPrice = price || 25000;
             modalService.textContent = service;
             modalPrice.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(selectedPrice);
 
-            // reset state
-            isPaid = false;
             uploadedFile = null;
             fileInput.value = '';
             fileName.textContent = '';
@@ -1732,7 +1828,6 @@
             modalConfirm.disabled = true;
             modalConfirm.textContent = 'Konfirmasi ke WhatsApp';
 
-            // reset timer
             if (timerInterval) {
                 clearInterval(timerInterval);
                 timerInterval = null;
@@ -1741,15 +1836,11 @@
             timerDisplay.textContent = '10:00';
             timerDisplay.classList.remove('warning');
 
-            // show modal
             modalOverlay.classList.add('open');
             document.body.style.overflow = 'hidden';
-
-            // start timer
             timerInterval = setInterval(tickTimer, 1000);
         }
 
-        // ---- Close modal ----
         function closeModal() {
             modalOverlay.classList.remove('open');
             document.body.style.overflow = '';
@@ -1759,7 +1850,6 @@
             }
         }
 
-        // ---- Timer tick ----
         function tickTimer() {
             timeLeft--;
             if (timeLeft < 0) {
@@ -1775,14 +1865,9 @@
             const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
             const secs = String(timeLeft % 60).padStart(2, '0');
             timerDisplay.textContent = mins + ':' + secs;
-            if (timeLeft <= 60) {
-                timerDisplay.classList.add('warning');
-            } else {
-                timerDisplay.classList.remove('warning');
-            }
+            timerDisplay.classList.toggle('warning', timeLeft <= 60);
         }
 
-        // ---- File upload ----
         fileInput.addEventListener('change', function(e) {
             const file = this.files[0];
             if (file) {
@@ -1800,7 +1885,6 @@
             }
         });
 
-        // drag & drop visual
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
             uploadArea.style.borderColor = 'var(--primary)';
@@ -1821,7 +1905,6 @@
             }
         });
 
-        // ---- Confirm (WhatsApp) ----
         modalConfirm.addEventListener('click', function() {
             if (!uploadedFile) {
                 statusMsg.textContent = 'Silakan upload bukti transfer terlebih dahulu.';
@@ -1834,13 +1917,9 @@
                 return;
             }
 
-            const service = encodeURIComponent(selectedService);
-            const price = selectedPrice;
-            const fileNameRaw = uploadedFile.name;
-
             const message =
-                `Halo TAMA! Saya sudah melakukan pembayaran untuk layanan *${selectedService}* sebesar Rp ${new Intl.NumberFormat('id-ID').format(price)}.\n\n` +
-                `Bukti transfer: ${fileNameRaw}\n` +
+                `Halo TAMA! Saya sudah melakukan pembayaran untuk layanan *${selectedService}* sebesar Rp ${new Intl.NumberFormat('id-ID').format(selectedPrice)}.\n\n` +
+                `Bukti transfer: ${uploadedFile.name}\n` +
                 `Waktu pembayaran: ${new Date().toLocaleString('id-ID')}\n\n` +
                 `Mohon diproses ya. Terima kasih.`;
 
@@ -1857,7 +1936,6 @@
             }, 800);
         });
 
-        // ---- Event listeners for modal ----
         document.querySelectorAll('.order-trigger').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -1880,7 +1958,6 @@
             }
         });
 
-        // ---- Hero "Order Sekarang" scroll ke layanan ----
         document.querySelector('.hero .btn[href="#layanan"]')?.addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('layanan').scrollIntoView({ behavior: 'smooth' });
