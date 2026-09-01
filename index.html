@@ -6,1297 +6,1189 @@
 
 <title>TAMA Roblox Services</title>
 
-<meta name="description"
-content="TAMA Roblox Services - Jasa Ubah Umur, Verifikasi On Mic dan Ubah Negara Roblox.">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
 
-/* =========================================================
-   ROOT
-========================================================= */
-
-:root {
-    --bg: #070313;
-    --bg2: #0d061d;
-    --card: rgba(22, 10, 48, .82);
-
-    --text: #ffffff;
-    --muted: #c9c0d8;
-
-    --primary: #9b20ff;
-    --primary2: #6d12ff;
-    --glow: rgba(157, 28, 255, .65);
-
-    --border: rgba(180, 76, 255, .35);
-
-    --nav: rgba(8, 3, 20, .78);
-
-    --shadow:
-        0 0 25px rgba(143, 0, 255, .25),
-        0 0 80px rgba(109, 18, 255, .12);
+:root{
+  --bg:#06000e;
+  --bg2:#10001d;
+  --card:rgba(20,7,40,.78);
+  --card2:#16082b;
+  --text:#fff;
+  --muted:#bdb0ca;
+  --primary:#a52cff;
+  --primary2:#d85cff;
+  --line:rgba(194,73,255,.38);
+  --shadow:0 20px 70px rgba(135,25,255,.22);
 }
 
-body.light {
-    --bg: #f4efff;
-    --bg2: #ffffff;
-    --card: rgba(255,255,255,.88);
-
-    --text: #21162e;
-    --muted: #665c70;
-
-    --primary: #7620db;
-    --primary2: #5514b5;
-    --glow: rgba(118,32,219,.25);
-
-    --border: rgba(118,32,219,.22);
-
-    --nav: rgba(255,255,255,.84);
-
-    --shadow:
-        0 10px 40px rgba(66, 26, 110, .12),
-        0 2px 12px rgba(66, 26, 110, .08);
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+html{
+  scroll-behavior:smooth;
 }
 
-html {
-    scroll-behavior: smooth;
+body{
+  font-family:Inter,sans-serif;
+  background:
+    radial-gradient(circle at 50% -10%,#410071 0,transparent 38%),
+    radial-gradient(circle at 0 40%,#220044 0,transparent 30%),
+    var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  transition:
+    background .5s ease,
+    color .5s ease;
 }
 
-body {
-    font-family: "Outfit", sans-serif;
-    background:
-        radial-gradient(circle at 50% -10%, rgba(145, 29, 255, .20), transparent 35%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-    transition:
-        background .5s ease,
-        color .5s ease;
+/* ================= LIGHT MODE ================= */
+
+body.light{
+  --bg:#f7f1ff;
+  --bg2:#eee2ff;
+  --card:rgba(255,255,255,.9);
+  --card2:#fff;
+  --text:#24142f;
+  --muted:#665a70;
+  --primary:#8b22dc;
+  --primary2:#bd40ff;
+  --line:rgba(125,39,185,.28);
+  --shadow:0 20px 60px rgba(120,45,170,.16);
+
+  background:
+    radial-gradient(circle at 50% -10%,#ead1ff 0,transparent 38%),
+    linear-gradient(180deg,#fbf8ff,#eee3fb);
 }
 
-button,
-a {
-    font-family: inherit;
+/* ================= LOADING ================= */
+
+#loader{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#050009;
+  transition:.7s ease;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
+#loader.hide{
+  opacity:0;
+  visibility:hidden;
 }
 
-/* =========================================================
-   LOADING
-========================================================= */
-
-.loader {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: #070313;
-    transition: opacity .7s ease, visibility .7s ease;
+.loader-box{
+  text-align:center;
 }
 
-.loader.hide {
-    opacity: 0;
-    visibility: hidden;
+.loader-logo{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:54px;
+  font-weight:800;
+  font-style:italic;
+  letter-spacing:-4px;
+  color:white;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 30px #a82dff,
+    0 0 70px #a82dff;
+  animation:logoFloat 1.5s ease-in-out infinite;
 }
 
-.loader-content {
-    text-align: center;
+.loader-sub{
+  font-size:10px;
+  letter-spacing:3px;
+  margin-top:8px;
+  color:#cda6e5;
 }
 
-.loader-logo {
-    font-size: 48px;
-    font-weight: 900;
-    font-style: italic;
-    letter-spacing: -3px;
-
-    color: white;
-
-    text-shadow:
-        0 0 10px #9b20ff,
-        0 0 30px #9b20ff,
-        0 0 70px #6d12ff;
-
-    animation: loaderPulse 1.2s infinite alternate;
+.loader-bar{
+  width:220px;
+  height:4px;
+  background:#26122f;
+  border-radius:50px;
+  margin:20px auto 0;
+  overflow:hidden;
 }
 
-.loader-sub {
-    color: #cfc4df;
-    font-size: 13px;
-    margin-top: 5px;
-    letter-spacing: 3px;
+.loader-bar span{
+  display:block;
+  width:45%;
+  height:100%;
+  background:linear-gradient(90deg,#8d1dff,#ef72ff);
+  box-shadow:0 0 20px #bd43ff;
+  animation:loaderMove 1.2s infinite;
 }
 
-.loader-bar {
-    width: 180px;
-    height: 4px;
-    background: rgba(255,255,255,.12);
-    border-radius: 100px;
-    margin: 25px auto 0;
-    overflow: hidden;
+@keyframes loaderMove{
+  from{
+    transform:translateX(-120%);
+  }
+
+  to{
+    transform:translateX(330%);
+  }
 }
 
-.loader-progress {
-    width: 40%;
-    height: 100%;
-    background: linear-gradient(90deg, #7615ff, #e146ff);
-    box-shadow: 0 0 15px #a421ff;
-    animation: loading 1.2s infinite ease-in-out;
+@keyframes logoFloat{
+  50%{
+    transform:translateY(-7px);
+  }
 }
 
-@keyframes loading {
-    0% {
-        transform: translateX(-120%);
-    }
-    100% {
-        transform: translateX(450%);
-    }
+/* ================= HEADER ================= */
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1000;
+  transition:.35s ease;
 }
 
-@keyframes loaderPulse {
-    from {
-        transform: scale(.96);
-        opacity: .75;
-    }
-    to {
-        transform: scale(1.04);
-        opacity: 1;
-    }
+header.scrolled{
+  background:rgba(5,0,12,.76);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
 }
 
-/* =========================================================
-   BACKGROUND EFFECT
-========================================================= */
-
-.bg-effects {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -1;
-    overflow: hidden;
+body.light header.scrolled{
+  background:rgba(255,255,255,.82);
 }
 
-.orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: .25;
-    animation: orbMove 9s infinite alternate ease-in-out;
+.nav{
+  width:min(1180px,92%);
+  height:76px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:24px;
 }
 
-.orb.one {
-    width: 280px;
-    height: 280px;
-    background: #8a00ff;
-    top: 15%;
-    left: -100px;
+.brand{
+  min-width:175px;
+  font-family:"Space Grotesk",sans-serif;
+  font-weight:800;
+  font-style:italic;
+  font-size:25px;
+  line-height:.8;
+  color:white;
+  text-decoration:none;
+  text-shadow:0 0 22px #b633ff;
 }
 
-.orb.two {
-    width: 350px;
-    height: 350px;
-    background: #5b00ff;
-    right: -150px;
-    top: 45%;
-    animation-delay: -3s;
+body.light .brand{
+  color:#48125f;
+  text-shadow:none;
 }
 
-.orb.three {
-    width: 220px;
-    height: 220px;
-    background: #c100ff;
-    left: 45%;
-    bottom: -100px;
-    animation-delay: -5s;
+.brand small{
+  display:block;
+  margin-top:8px;
+  font-family:Inter,sans-serif;
+  font-style:normal;
+  font-size:8px;
+  letter-spacing:1.5px;
 }
 
-@keyframes orbMove {
-    0% {
-        transform: translate(0,0) scale(1);
-    }
-    100% {
-        transform: translate(80px,-50px) scale(1.15);
-    }
+.nav-links{
+  display:flex;
+  justify-content:center;
+  gap:7px;
+  flex:1;
 }
 
-/* =========================================================
-   NAVBAR
-========================================================= */
-
-.navbar {
-    position: fixed;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    width: min(1180px, calc(100% - 30px));
-
-    padding: 12px 18px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    background: var(--nav);
-    border: 1px solid var(--border);
-
-    border-radius: 22px;
-
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-
-    box-shadow: var(--shadow);
-
-    z-index: 500;
+.nav-links a{
+  text-decoration:none;
+  color:#d7c8e1;
+  padding:11px 15px;
+  border-radius:13px;
+  font-size:12px;
+  font-weight:700;
+  transition:.25s;
 }
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.brand-mark {
-    width: 43px;
-    height: 43px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 13px;
-
-    background: linear-gradient(135deg, #7d19ff, #c13aff);
-
-    color: white;
-
-    font-weight: 900;
-    font-style: italic;
-    font-size: 17px;
-
-    box-shadow: 0 0 20px rgba(150,35,255,.45);
-
-    animation: brandFloat 3s ease-in-out infinite;
-}
-
-@keyframes brandFloat {
-    0%,100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-4px);
-    }
-}
-
-.brand-text strong {
-    display: block;
-    font-size: 17px;
-    line-height: 1;
-}
-
-.brand-text span {
-    font-size: 9px;
-    color: var(--muted);
-    letter-spacing: 1px;
-}
-
-.nav-links {
-    display: flex;
-    gap: 7px;
-}
-
-.nav-links a {
-    padding: 10px 15px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--muted);
-    transition: .25s ease;
+body.light .nav-links a{
+  color:#5b4a66;
 }
 
 .nav-links a:hover,
-.nav-links a.active {
-    color: white;
-    background: linear-gradient(135deg, var(--primary), var(--primary2));
-    box-shadow: 0 0 20px var(--glow);
+.nav-links a.active{
+  background:rgba(163,43,255,.2);
+  color:white;
+  box-shadow:0 0 20px rgba(170,45,255,.15);
 }
 
-.actions {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-}
-
-/* TikTok hanya dark mode */
-
-.tiktok-btn {
-    width: 42px;
-    height: 42px;
-
-    display: grid;
-    place-items: center;
+body.light .nav-links a:hover,
+body.light .nav-links a.active{
+  color:#7014a6;
+  background:#ead8fa;
+}
+
+/* ================= TIKTOK ================= */
+
+.tiktok{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  color:white;
+  font-size:10px;
+  font-weight:800;
+}
+
+body.light .tiktok{
+  color:#3a2744;
+}
+
+/*
+  Logo TikTok tetap hitam di kedua mode.
+*/
+.tiktok-icon{
+  width:38px;
+  height:38px;
+  min-width:38px;
+  border-radius:50%;
+  background:#000;
+  display:grid;
+  place-items:center;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 18px rgba(255,255,255,.10);
+  overflow:hidden;
+}
+
+.tiktok-icon svg{
+  width:21px;
+  height:21px;
+  display:block;
+}
+
+.tiktok small{
+  display:block;
+  font-size:8px;
+  color:#9f93aa;
+  margin-top:3px;
+}
+
+/* ================= THEME ================= */
+
+.theme-btn{
+  width:78px;
+  height:39px;
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:4px;
+  background:rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  cursor:pointer;
+  position:relative;
+}
+
+.theme-btn span{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:16px;
+  z-index:2;
+}
+
+.theme-slider{
+  position:absolute;
+  width:31px;
+  height:31px;
+  border-radius:50%;
+  left:4px;
+  background:white;
+  box-shadow:0 3px 15px rgba(0,0,0,.3);
+  transition:.35s ease;
+}
+
+body:not(.light) .theme-slider{
+  left:43px;
+}
+
+/* ================= HERO ================= */
+
+main{
+  padding-top:76px;
+}
+
+.hero{
+  min-height:540px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  padding:70px 20px 55px;
+}
+
+.hero::before,
+.hero::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  filter:blur(80px);
+  pointer-events:none;
+}
+
+.hero::before{
+  width:350px;
+  height:350px;
+  background:#9d1cff;
+  opacity:.2;
+  left:-130px;
+  top:80px;
+}
+
+.hero::after{
+  width:300px;
+  height:300px;
+  background:#d943ff;
+  opacity:.18;
+  right:-100px;
+  bottom:0;
+}
+
+.hero-content{
+  position:relative;
+  z-index:5;
+}
+
+.hero-pill{
+  display:inline-block;
+  padding:8px 18px;
+  border:1px solid var(--line);
+  border-radius:30px;
+  background:rgba(161,39,255,.09);
+  color:#e1b5ff;
+  font-size:11px;
+  font-weight:800;
+  animation:pillFloat 3s ease-in-out infinite;
+}
+
+body.light .hero-pill{
+  color:#7c21a9;
+  background:#f0dcff;
+}
+
+.hero-title{
+  margin-top:23px;
+  font-family:"Space Grotesk",sans-serif;
+  font-style:italic;
+  font-size:clamp(68px,11vw,125px);
+  line-height:.75;
+  letter-spacing:-7px;
+  font-weight:800;
+  color:white;
+  text-shadow:
+    0 3px #5e1391,
+    0 0 12px #fff,
+    0 0 35px #a72dff,
+    0 0 75px rgba(177,40,255,.65);
+  animation:titleFloat 4s ease-in-out infinite;
+}
+
+body.light .hero-title{
+  color:#7c20ad;
+  text-shadow:
+    0 2px #c184df,
+    0 0 22px rgba(176,50,230,.35);
+}
+
+.hero-title span{
+  display:block;
+  margin-top:23px;
+  font-size:.36em;
+  letter-spacing:1px;
+  font-style:normal;
+}
+
+.hero-description{
+  max-width:580px;
+  margin:25px auto;
+  font-size:13px;
+  line-height:1.7;
+  color:var(--muted);
+}
+
+.hero-buttons{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+/* ================= ROBLOX DECORATION ================= */
+
+.roblox-orbit{
+  position:absolute;
+  width:90px;
+  height:90px;
+  right:10%;
+  top:120px;
+  z-index:2;
+  animation:orbitFloat 4s ease-in-out infinite;
+}
+
+.roblox-logo{
+  width:76px;
+  height:76px;
+  background:linear-gradient(145deg,#fff,#cfcfcf);
+  border-radius:20px;
+  transform:rotate(15deg);
+  box-shadow:
+    0 0 15px white,
+    0 0 45px #ad2eff;
+  display:grid;
+  place-items:center;
+}
 
-    border-radius: 13px;
-
-    background: #050505;
-    border: 1px solid rgba(255,255,255,.12);
-
-    transition: .3s ease;
+.roblox-logo::after{
+  content:"";
+  width:29px;
+  height:29px;
+  background:#08000f;
+  transform:rotate(0deg);
+  clip-path:polygon(
+    15% 0,
+    100% 0,
+    100% 85%,
+    0 100%,
+    0 15%
+  );
+}
+
+body.light .roblox-logo{
+  box-shadow:
+    0 0 12px #fff,
+    0 0 35px #a52cff;
 }
 
-.tiktok-btn svg {
-    width: 21px;
-    height: 21px;
-    fill: white;
-}
-
-.tiktok-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow:
-        -3px 0 12px rgba(0,242,234,.45),
-        3px 0 12px rgba(255,0,80,.45);
-}
+@keyframes orbitFloat{
+  0%,100%{
+    transform:translateY(0) rotate(-5deg);
+  }
+
+  50%{
+    transform:translateY(-20px) rotate(8deg);
+  }
+}
 
-/* LIGHT MODE = TIKTOK HILANG */
+@keyframes titleFloat{
+  0%,100%{
+    transform:translateY(0);
+  }
 
-body.light .tiktok-btn {
-    display: none;
+  50%{
+    transform:translateY(-5px);
+  }
 }
+
+@keyframes pillFloat{
+  0%,100%{
+    transform:translateY(0);
+  }
 
-.theme-btn {
-    width: 80px;
-    height: 42px;
-
-    border: 1px solid var(--border);
-    border-radius: 100px;
-
-    background: var(--card);
-
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-
-    color: var(--text);
-
-    transition: .3s ease;
+  50%{
+    transform:translateY(-4px);
+  }
 }
 
-.theme-btn:hover {
-    transform: scale(1.04);
-}
+/* ================= BUTTON ================= */
 
-.theme-icon {
-    font-size: 17px;
-    line-height: 1;
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:13px 24px;
+  border-radius:13px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:800;
+  color:white;
+  background:linear-gradient(100deg,#8d18ff,#d73aff);
+  box-shadow:0 12px 35px rgba(160,35,255,.32);
+  transition:.25s;
+  border:0;
+  cursor:pointer;
 }
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero {
-    min-height: 760px;
-    padding: 155px 20px 60px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    position: relative;
+.btn:hover{
+  transform:translateY(-4px) scale(1.02);
+  box-shadow:0 18px 45px rgba(175,45,255,.48);
 }
-
-.hero-inner {
-    width: min(1120px, 100%);
 
-    display: grid;
-    grid-template-columns: 1fr .9fr;
-    align-items: center;
-    gap: 30px;
+.btn.secondary{
+  background:transparent;
+  border:1px solid var(--line);
+  box-shadow:none;
 }
 
-.hero-content {
-    position: relative;
-    z-index: 2;
+body.light .btn.secondary{
+  color:#61118a;
+  background:#fff;
 }
-
-.badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    padding: 8px 13px;
 
-    border: 1px solid var(--border);
-    border-radius: 100px;
+/* ================= STATS ================= */
 
-    background: var(--card);
-
-    color: var(--muted);
-
-    font-size: 12px;
-
-    animation: fadeUp .8s ease both;
+.stats{
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  background:rgba(55,8,90,.42);
 }
 
-.badge-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #7dff9a;
-    box-shadow: 0 0 12px #35ff66;
+body.light .stats{
+  background:rgba(255,255,255,.55);
 }
-
-.hero h1 {
-    margin-top: 20px;
-
-    font-size: clamp(45px, 7vw, 84px);
-    line-height: .9;
 
-    font-weight: 900;
-    letter-spacing: -4px;
-
-    animation: fadeUp .8s .1s ease both;
+.stats-grid{
+  width:min(1100px,92%);
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
 }
-
-.hero h1 .gradient {
-    display: block;
-
-    background: linear-gradient(
-        90deg,
-        #ffffff,
-        #b82dff,
-        #7e21ff,
-        #ffffff
-    );
-
-    background-size: 250% auto;
-
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
 
-    animation: textShine 5s linear infinite;
+.stat{
+  min-height:110px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:13px;
+  border-right:1px solid var(--line);
 }
 
-body.light .hero h1 .gradient {
-    background: linear-gradient(
-        90deg,
-        #32105e,
-        #7520db,
-        #4b1592,
-        #32105e
-    );
-
-    background-size: 250% auto;
-
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+.stat:last-child{
+  border:0;
 }
 
-@keyframes textShine {
-    to {
-        background-position: 250% center;
-    }
+.stat-icon{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:rgba(170,43,255,.14);
+  border:1px solid var(--line);
+  font-size:22px;
 }
-
-.hero-description {
-    margin-top: 20px;
-    max-width: 570px;
-
-    color: var(--muted);
-
-    font-size: 16px;
-    line-height: 1.7;
 
-    animation: fadeUp .8s .2s ease both;
+.stat b{
+  display:block;
+  font-family:"Space Grotesk";
+  font-size:28px;
 }
 
-.hero-buttons {
-    display: flex;
-    gap: 12px;
-    margin-top: 28px;
-
-    animation: fadeUp .8s .3s ease both;
+.stat small{
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.5;
 }
-
-.btn {
-    min-height: 48px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-
-    padding: 0 21px;
 
-    border-radius: 14px;
+/* ================= SECTIONS ================= */
 
-    border: 1px solid var(--border);
-
-    cursor: pointer;
-
-    font-size: 13px;
-    font-weight: 700;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        background .3s ease;
+.section{
+  padding:75px 0;
 }
 
-.btn-primary {
-    color: white;
-    background: linear-gradient(
-        135deg,
-        #8d1eff,
-        #c01dff
-    );
-
-    box-shadow:
-        0 10px 30px rgba(142,27,255,.25),
-        0 0 25px rgba(142,27,255,.2);
+.container{
+  width:min(1150px,92%);
+  margin:auto;
 }
 
-.btn-secondary {
-    background: var(--card);
-    color: var(--text);
+.heading{
+  text-align:center;
+  margin-bottom:32px;
 }
 
-.btn:hover {
-    transform: translateY(-4px);
+.heading-label{
+  display:inline-block;
+  border:1px solid var(--line);
+  background:rgba(170,43,255,.08);
+  padding:6px 13px;
+  border-radius:20px;
+  color:#d293ff;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.5px;
 }
 
-.btn:active {
-    transform: scale(.95);
+body.light .heading-label{
+  color:#7920a2;
+  background:#f0dcff;
 }
 
-.btn-primary:hover {
-    box-shadow:
-        0 14px 35px rgba(142,27,255,.35),
-        0 0 35px rgba(142,27,255,.3);
+.heading h2{
+  margin-top:12px;
+  font-family:"Space Grotesk";
+  font-size:34px;
 }
-
-.hero-art {
-    position: relative;
-    min-height: 430px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    animation: fadeUp .9s .2s ease both;
+.heading p{
+  color:var(--muted);
+  margin-top:7px;
+  font-size:11px;
 }
-
-.hero-ring {
-    width: 360px;
-    height: 360px;
 
-    border-radius: 50%;
+/* ================= SERVICES ================= */
 
-    border: 1px solid rgba(171,54,255,.3);
-
-    box-shadow:
-        0 0 50px rgba(136,20,255,.2),
-        inset 0 0 50px rgba(136,20,255,.12);
-
-    animation: ringSpin 14s linear infinite;
+.service-slider{
+  position:relative;
 }
-
-.hero-card {
-    position: absolute;
-
-    width: 270px;
-
-    padding: 18px;
-
-    background: var(--card);
-
-    border: 1px solid var(--border);
-
-    border-radius: 28px;
 
-    backdrop-filter: blur(14px);
-
-    box-shadow: var(--shadow);
-
-    animation: heroFloat 4s ease-in-out infinite;
+.services{
+  display:flex;
+  gap:18px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none;
+  padding:10px 5px 20px;
 }
-
-.hero-card img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-
-    object-fit: cover;
 
-    border-radius: 20px;
-
-    display: block;
+.services::-webkit-scrollbar{
+  display:none;
 }
 
-.hero-card-label {
-    margin-top: 13px;
-    text-align: center;
-    font-weight: 800;
+.service{
+  flex:0 0 calc((100% - 36px)/3);
+  scroll-snap-align:center;
+  border:1px solid var(--line);
+  background:linear-gradient(
+    145deg,
+    var(--card),
+    rgba(8,2,20,.9)
+  );
+  border-radius:21px;
+  padding:12px;
+  box-shadow:var(--shadow);
+  transition:.3s;
+  position:relative;
 }
 
-@keyframes ringSpin {
-    to {
-        transform: rotate(360deg);
-    }
+body.light .service{
+  background:var(--card);
 }
 
-@keyframes heroFloat {
-    0%,100% {
-        transform: translateY(0) rotate(1deg);
-    }
-    50% {
-        transform: translateY(-15px) rotate(-1deg);
-    }
+.service:hover{
+  transform:translateY(-8px);
+  border-color:#c14dff;
 }
-
-/* =========================================================
-   STATS
-========================================================= */
-
-.stats {
-    width: min(1000px, calc(100% - 30px));
-    margin: -15px auto 0;
-
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-
-    border: 1px solid var(--border);
-    background: var(--card);
 
-    border-radius: 25px;
-
-    overflow: hidden;
-
-    box-shadow: var(--shadow);
+.service.hot::after{
+  content:"HOT";
+  position:absolute;
+  top:-9px;
+  right:10px;
+  background:#ff315d;
+  color:white;
+  padding:6px 11px;
+  border-radius:9px;
+  font-size:9px;
+  font-weight:900;
+  box-shadow:0 8px 20px #ff315d44;
 }
 
-.stat {
-    padding: 24px 20px;
-    text-align: center;
-    position: relative;
+.service-image{
+  width:100%;
+  height:185px;
+  border-radius:16px;
+  overflow:hidden;
+  background:#160522;
+  border:1px solid rgba(190,70,255,.22);
 }
 
-.stat:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 25%;
-    width: 1px;
-    height: 50%;
-    background: var(--border);
+.service-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:.5s;
 }
 
-.stat strong {
-    display: block;
-    font-size: 29px;
-    font-weight: 900;
+.service:hover .service-image img{
+  transform:scale(1.045);
 }
 
-.stat span {
-    color: var(--muted);
-    font-size: 12px;
+.service h3{
+  text-align:center;
+  margin:17px 0 8px;
+  font-family:"Space Grotesk";
+  font-size:17px;
 }
 
-/* =========================================================
-   SECTION
-========================================================= */
-
-.section {
-    width: min(1120px, calc(100% - 30px));
-    margin: 110px auto 0;
+.service p{
+  text-align:center;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+  min-height:32px;
 }
 
-.section-head {
-    text-align: center;
-    margin-bottom: 35px;
+.price{
+  text-align:center;
+  margin:15px 0;
+  font-family:"Space Grotesk";
+  font-size:20px;
+  font-weight:800;
 }
-
-.section-kicker {
-    display: inline-block;
-
-    padding: 6px 13px;
-
-    border-radius: 100px;
-
-    color: var(--primary);
-
-    background: rgba(145,25,255,.09);
-
-    border: 1px solid var(--border);
-
-    font-size: 10px;
-    font-weight: 800;
 
-    letter-spacing: 1px;
+.order{
+  width:100%;
+  border:0;
+  cursor:pointer;
+  text-align:center;
+  display:block;
+  color:white;
+  background:linear-gradient(100deg,#8f19ff,#d43aff);
+  padding:11px;
+  border-radius:11px;
+  font-size:10px;
+  font-weight:800;
+  text-decoration:none;
+  transition:.2s;
 }
 
-.section-head h2 {
-    font-size: clamp(30px,5vw,47px);
-    margin-top: 11px;
-    letter-spacing: -1.5px;
+.order:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(174,43,255,.4);
 }
 
-.section-head p {
-    color: var(--muted);
-    margin-top: 8px;
+.slider-arrows{
+  display:flex;
+  justify-content:space-between;
+  position:absolute;
+  top:46%;
+  left:-21px;
+  right:-21px;
+  pointer-events:none;
 }
 
-/* =========================================================
-   SERVICES
-========================================================= */
-
-.services-wrapper {
-    position: relative;
+.slider-arrow{
+  pointer-events:auto;
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--card2);
+  color:var(--text);
+  font-size:26px;
+  cursor:pointer;
+  box-shadow:var(--shadow);
 }
 
-.services {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+.dots{
+  text-align:center;
+  margin-top:8px;
 }
-
-.service-card {
-    position: relative;
-
-    background: var(--card);
-
-    border: 1px solid var(--border);
 
-    border-radius: 25px;
-
-    padding: 12px;
-
-    overflow: hidden;
-
-    box-shadow: var(--shadow);
-
-    transition:
-        transform .3s ease,
-        border-color .3s ease,
-        box-shadow .3s ease;
+.dots i{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#5a3b68;
+  margin:0 3px;
+  transition:.3s;
 }
-
-.service-card:hover {
-    transform: translateY(-9px);
 
-    border-color: rgba(184,63,255,.7);
-
-    box-shadow:
-        0 20px 55px rgba(117,21,255,.18),
-        0 0 35px rgba(151,30,255,.12);
+.dots i.active{
+  width:22px;
+  border-radius:20px;
+  background:#bd43ff;
 }
-
-.service-img {
-    width: 100%;
-    aspect-ratio: 1.45 / 1;
-
-    object-fit: cover;
-
-    display: block;
 
-    border-radius: 18px;
+/* ================= WHY ================= */
 
-    transition: transform .5s ease;
+.why{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
 }
 
-.service-card:hover .service-img {
-    transform: scale(1.04);
+.why-card{
+  padding:25px 15px;
+  text-align:center;
+  border:1px solid var(--line);
+  background:var(--card);
+  border-radius:17px;
+  transition:.3s;
 }
-
-.hot {
-    position: absolute;
-
-    top: 20px;
-    right: 20px;
-
-    padding: 6px 10px;
-
-    border-radius: 100px;
-
-    background: #ff315c;
-    color: white;
 
-    font-size: 10px;
-    font-weight: 900;
-
-    box-shadow: 0 0 18px rgba(255,49,92,.5);
+.why-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow);
 }
 
-.service-content {
-    padding: 17px 9px 9px;
-    text-align: center;
+.why-icon{
+  font-size:28px;
+  margin-bottom:12px;
 }
 
-.service-content h3 {
-    font-size: 20px;
+.why-card h3{
+  font-size:12px;
 }
-
-.service-content p {
-    color: var(--muted);
-
-    font-size: 12px;
-    line-height: 1.6;
-
-    margin-top: 6px;
 
-    min-height: 40px;
+.why-card p{
+  color:var(--muted);
+  font-size:9px;
+  margin-top:8px;
+  line-height:1.5;
 }
 
-.price {
-    margin: 15px 0;
+/* ================= REVIEWS ================= */
 
-    font-size: 12px;
-    color: var(--muted);
+.reviews{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+  scrollbar-width:none;
 }
 
-.price strong {
-    color: var(--text);
-    font-size: 20px;
-    margin-left: 5px;
+.reviews::-webkit-scrollbar{
+  display:none;
 }
-
-.order-btn {
-    width: 100%;
-
-    border: 0;
-
-    min-height: 45px;
-
-    border-radius: 13px;
-
-    cursor: pointer;
 
-    color: white;
-
-    font-weight: 800;
-    font-size: 12px;
-
-    background: linear-gradient(
-        135deg,
-        #831cff,
-        #c51cff
-    );
-
-    box-shadow: 0 8px 25px rgba(135,23,255,.22);
-
-    transition: .25s ease;
+.review{
+  min-width:calc((100% - 30px)/3);
+  padding:19px;
+  border:1px solid var(--line);
+  background:var(--card);
+  border-radius:17px;
 }
 
-.order-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(135,23,255,.35);
+.person{
+  display:flex;
+  gap:10px;
+  align-items:center;
 }
 
-.order-btn:active {
-    transform: scale(.96);
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:linear-gradient(135deg,#c34cff,#42106b);
+  font-weight:800;
 }
 
-.slider-controls {
-    display: none;
+.stars{
+  color:#ffd21e;
+  font-size:11px;
+  margin-top:2px;
 }
-
-/* =========================================================
-   WHY US
-========================================================= */
 
-.why-grid {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 15px;
+.review p{
+  margin-top:15px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
 }
 
-.why-card {
-    text-align: center;
-
-    padding: 27px 18px;
-
-    border: 1px solid var(--border);
-
-    background: var(--card);
+.date{
+  margin-top:12px;
+  text-align:right;
+  color:#8c8097;
+  font-size:8px;
+}
 
-    border-radius: 22px;
+/* ================= FAQ ================= */
 
-    transition: .3s ease;
+.faq{
+  max-width:800px;
+  margin:auto;
 }
 
-.why-card:hover {
-    transform: translateY(-6px);
+.faq-item{
+  border:1px solid var(--line);
+  border-radius:13px;
+  margin:9px 0;
+  background:var(--card);
+  overflow:hidden;
 }
-
-.why-icon {
-    width: 55px;
-    height: 55px;
 
-    margin: 0 auto 14px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 17px;
-
-    color: white;
-
-    background: linear-gradient(
-        135deg,
-        #7919ff,
-        #b728ff
-    );
-
-    box-shadow: 0 0 25px rgba(139,30,255,.22);
+.faq-question{
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  cursor:pointer;
+  font-size:11px;
+  font-weight:700;
 }
 
-.why-card h3 {
-    font-size: 15px;
+.faq-answer{
+  max-height:0;
+  overflow:hidden;
+  padding:0 16px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+  transition:.3s;
 }
 
-.why-card p {
-    color: var(--muted);
-    font-size: 11px;
-    margin-top: 7px;
-    line-height: 1.5;
+.faq-item.open .faq-answer{
+  max-height:120px;
+  padding-bottom:16px;
 }
-
-/* =========================================================
-   CTA
-========================================================= */
-
-.cta {
-    margin-top: 110px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 30px;
 
-    background:
-        radial-gradient(
-            circle at 50% 0,
-            rgba(154,31,255,.24),
-            transparent 55%
-        ),
-        var(--card);
-
-    padding: 50px 25px;
-
-    text-align: center;
-
-    position: relative;
-    overflow: hidden;
-
-    box-shadow: var(--shadow);
+.faq-question span{
+  transition:.3s;
 }
-
-.cta::before,
-.cta::after {
-    content: "";
 
-    position: absolute;
-
-    width: 150px;
-    height: 150px;
-
-    border-radius: 50%;
-
-    border: 1px solid var(--border);
-
-    animation: ctaSpin 8s linear infinite;
+.faq-item.open .faq-question span{
+  transform:rotate(45deg);
 }
 
-.cta::before {
-    left: -70px;
-    top: -70px;
-}
+/* ================= CTA ================= */
 
-.cta::after {
-    right: -70px;
-    bottom: -70px;
+.cta{
+  padding:45px 0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(
+    90deg,
+    rgba(87,10,130,.35),
+    rgba(12,2,25,.65),
+    rgba(87,10,130,.35)
+  );
 }
 
-@keyframes ctaSpin {
-    to {
-        transform: rotate(360deg);
-    }
+body.light .cta{
+  background:linear-gradient(
+    90deg,
+    #ead4f9,
+    #fff,
+    #ead4f9
+  );
 }
 
-.cta h2 {
-    font-size: clamp(27px,5vw,42px);
+.cta-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
 }
 
-.cta p {
-    color: var(--muted);
-    margin: 10px auto 23px;
+.cta h2{
+  font-family:"Space Grotesk";
+  font-size:25px;
 }
 
-.cta-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
+.cta p{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:10px;
 }
 
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer {
-    width: min(1120px, calc(100% - 30px));
-
-    margin: 80px auto 25px;
-
-    padding-top: 25px;
-
-    border-top: 1px solid var(--border);
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.cta-buttons{
+  display:flex;
+  gap:10px;
+}
 
-    color: var(--muted);
+/* ================= FOOTER ================= */
 
-    font-size: 11px;
+footer{
+  padding:20px 0;
 }
 
-.footer-brand {
-    font-weight: 900;
-    color: var(--text);
+.footer-inner{
+  width:min(1150px,92%);
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  color:#82768c;
+  font-size:8px;
 }
-
-/* =========================================================
-   FLOATING PARTICLES
-========================================================= */
-
-.particle {
-    position: fixed;
-
-    width: 5px;
-    height: 5px;
 
-    background: var(--primary);
+/* ================= REVEAL ================= */
 
-    border-radius: 50%;
-
-    opacity: .45;
-
-    pointer-events: none;
-
-    animation: particleFloat linear infinite;
+.reveal{
+  opacity:0;
+  transform:translateY(25px);
+  transition:.8s ease;
 }
-
-@keyframes particleFloat {
-    from {
-        transform: translateY(100vh);
-        opacity: 0;
-    }
-
-    20% {
-        opacity: .5;
-    }
 
-    80% {
-        opacity: .35;
-    }
-
-    to {
-        transform: translateY(-20vh);
-        opacity: 0;
-    }
+.reveal.show{
+  opacity:1;
+  transform:none;
 }
 
-/* =========================================================
-   ANIMATIONS
-========================================================= */
+/* ================= PARTICLES ================= */
 
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity .8s ease, transform .8s ease;
+.particle{
+  position:fixed;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#c64cff;
+  box-shadow:0 0 12px #c64cff;
+  pointer-events:none;
+  z-index:-1;
+  animation:particleMove linear infinite;
 }
 
-.reveal.show {
-    opacity: 1;
-    transform: translateY(0);
-}
+@keyframes particleMove{
 
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+  from{
+    transform:translateY(110vh);
+    opacity:0;
+  }
 
-/* =========================================================
-   MOBILE
-========================================================= */
+  15%{
+    opacity:1;
+  }
 
-@media (max-width: 900px) {
+  85%{
+    opacity:1;
+  }
 
-    .navbar {
-        padding: 10px 12px;
-    }
+  to{
+    transform:translateY(-10vh);
+    opacity:0;
+  }
 
-    .nav-links {
-        display: none;
-    }
+}
 
-    .brand-text {
-        display: none;
-    }
+/* ================= MOBILE ================= */
 
-    .hero {
-        padding-top: 130px;
-    }
+@media(max-width:900px){
 
-    .hero-inner {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
+  .nav{
+    gap:10px;
+  }
 
-    .hero-description {
-        margin-left: auto;
-        margin-right: auto;
-    }
+  .brand{
+    min-width:auto;
+    font-size:20px;
+  }
 
-    .hero-buttons {
-        justify-content: center;
-    }
+  .nav-links{
+    display:none;
+  }
 
-    .hero-art {
-        min-height: 360px;
-    }
+  .tiktok{
+    margin-left:auto;
+  }
 
-    .hero-ring {
-        width: 290px;
-        height: 290px;
-    }
+  .service{
+    flex-basis:80%;
+  }
 
-    .hero-card {
-        width: 230px;
-    }
+  .why{
+    grid-template-columns:repeat(2,1fr);
+  }
 
-    .services {
-        grid-template-columns: 1fr;
-        max-width: 420px;
-        margin: auto;
-    }
+  .review{
+    min-width:80%;
+  }
 
-    .why-grid {
-        grid-template-columns: repeat(2,1fr);
-    }
+  .roblox-orbit{
+    right:3%;
+    top:100px;
+    transform:scale(.7);
+  }
 
 }
+
+@media(max-width:600px){
 
-@media (max-width: 600px) {
+  .theme-btn{
+    width:68px;
+  }
 
-    .navbar {
-        top: 9px;
-        width: calc(100% - 18px);
-    }
+  .theme-slider{
+    width:29px;
+    height:29px;
+  }
 
-    .brand-mark {
-        width: 40px;
-        height: 40px;
-    }
+  body:not(.light) .theme-slider{
+    left:35px;
+  }
 
-    .theme-btn {
-        width: 68px;
-    }
+  .hero{
+    min-height:520px;
+    padding-top:75px;
+  }
 
-    .hero {
-        min-height: 700px;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
+  .hero-title{
+    font-size:67px;
+    letter-spacing:-5px;
+  }
 
-    .hero h1 {
-        font-size: 50px;
-        letter-spacing: -3px;
-    }
+  .hero-description{
+    font-size:11px;
+  }
 
-    .hero-description {
-        font-size: 14px;
-    }
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
 
-    .hero-buttons {
-        flex-direction: column;
-    }
+  .stat{
+    border-right:0;
+    border-bottom:1px solid var(--line);
+  }
 
-    .hero-buttons .btn {
-        width: 100%;
-    }
+  .stat:last-child{
+    border-bottom:0;
+  }
 
-    .hero-art {
-        min-height: 300px;
-    }
+  .service{
+    flex-basis:88%;
+  }
 
-    .hero-ring {
-        width: 245px;
-        height: 245px;
-    }
+  .slider-arrows{
+    left:0;
+    right:0;
+  }
 
-    .hero-card {
-        width: 200px;
-        padding: 11px;
-    }
+  .why{
+    gap:8px;
+  }
 
-    .stats {
-        grid-template-columns: 1fr;
-    }
+  .why-card{
+    padding:18px 8px;
+  }
 
-    .stat {
-        padding: 18px;
-    }
+  .cta-inner{
+    flex-direction:column;
+    text-align:center;
+  }
 
-    .stat:not(:last-child)::after {
-        width: 60%;
-        height: 1px;
-        top: auto;
-        right: 20%;
-        bottom: 0;
-    }
+  .cta-buttons{
+    flex-direction:column;
+    width:100%;
+  }
 
-    .section {
-        margin-top: 80px;
-    }
+  .cta-buttons .btn{
+    width:100%;
+  }
 
-    .why-grid {
-        grid-template-columns: 1fr 1fr;
-    }
+  .footer-inner{
+    flex-direction:column;
+    gap:8px;
+    text-align:center;
+  }
 
-    .cta-buttons {
-        flex-direction: column;
-    }
+  .tiktok span:last-child{
+    display:none;
+  }
 
-    footer {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-    }
 }
 
 </style>
@@ -1304,814 +1196,1243 @@ footer {
 
 <body>
 
-<!-- ======================================================
-     LOADING SCREEN
-====================================================== -->
+<!-- ================= LOADER ================= -->
 
-<div class="loader" id="loader">
+<div id="loader">
 
-    <div class="loader-content">
+  <div class="loader-box">
 
-        <div class="loader-logo">
-            TAMA
-        </div>
-
-        <div class="loader-sub">
-            ROBLOX SERVICES
-        </div>
-
-        <div class="loader-bar">
-            <div class="loader-progress"></div>
-        </div>
-
+    <div class="loader-logo">
+      TAMA
     </div>
 
+    <div class="loader-sub">
+      ROBLOX SERVICES
+    </div>
+
+    <div class="loader-bar">
+      <span></span>
+    </div>
+
+  </div>
+
 </div>
 
 
-<!-- ======================================================
-     BACKGROUND
-====================================================== -->
+<!-- ================= HEADER ================= -->
 
-<div class="bg-effects">
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-    <div class="orb three"></div>
-</div>
+<header id="header">
+
+  <div class="nav">
+
+    <a href="#beranda" class="brand">
+      TAMA
+      <small>ROBLOX SERVICES</small>
+    </a>
 
 
-<!-- ======================================================
-     NAVBAR
-====================================================== -->
+    <nav class="nav-links">
 
-<nav class="navbar">
+      <a href="#beranda" class="active">
+        Beranda
+      </a>
 
-    <a href="#" class="brand">
+      <a href="#layanan">
+        Layanan
+      </a>
 
-        <div class="brand-mark">
-            T
-        </div>
+      <a href="#ulasan">
+        Ulasan
+      </a>
 
-        <div class="brand-text">
-            <strong>TAMA</strong>
-            <span>ROBLOX SERVICES</span>
-        </div>
+      <a href="#faq">
+        FAQ
+      </a>
+
+    </nav>
+
+
+    <!-- TIKTOK -->
+
+    <a
+      class="tiktok"
+      href="https://www.tiktok.com/@tamastorebna"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+
+      <div class="tiktok-icon">
+
+        <!-- TikTok SVG -->
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+
+          <path
+            d="M14.4 3C14.65 5.05 15.78 6.62 18 7.15V10.1C16.62 10.03 15.48 9.61 14.42 8.88V15.2C14.42 18.55 11.78 21 8.72 21C5.66 21 3 18.55 3 15.42C3 12.3 5.66 9.84 8.72 9.84C9.02 9.84 9.31 9.87 9.59 9.91V12.96C9.31 12.87 9.02 12.82 8.72 12.82C7.35 12.82 6.15 13.93 6.15 15.42C6.15 16.91 7.35 18.02 8.72 18.02C10.09 18.02 11.29 16.91 11.29 15.42V3H14.4Z"
+            fill="white"
+          />
+
+        </svg>
+
+      </div>
+
+      <span>
+        tamastorebna
+        <small>Follow</small>
+      </span>
 
     </a>
 
 
-    <div class="nav-links">
+    <!-- THEME -->
 
-        <a href="#beranda" class="active">
-            Beranda
-        </a>
+    <button
+      class="theme-btn"
+      id="themeBtn"
+      aria-label="Ganti tema"
+    >
 
-        <a href="#layanan">
-            Layanan
-        </a>
+      <span>☼</span>
+      <span>◐</span>
 
-        <a href="#keunggulan">
-            Keunggulan
-        </a>
+      <i class="theme-slider"></i>
 
-        <a href="#order">
-            Order
-        </a>
+    </button>
 
-    </div>
+  </div>
 
+</header>
 
-    <div class="actions">
-
-        <!-- TIKTOK DARK MODE SAJA -->
-
-        <a
-            href="https://www.tiktok.com/@tamastorebna"
-            target="_blank"
-            class="tiktok-btn"
-            aria-label="TikTok TAMA"
-        >
-
-            <!-- TikTok SVG -->
-            <svg viewBox="0 0 24 24">
-                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-3.85V2h-3.4v13.67a2.9 2.9 0 1 1-2-2.76V9.45a6.33 6.33 0 1 0 5.4 6.22V8.34a8.16 8.16 0 0 0 4.77 1.52V6.69h-1Z"/>
-            </svg>
-
-        </a>
-
-
-        <!-- THEME -->
-
-        <button
-            class="theme-btn"
-            id="themeBtn"
-            aria-label="Ganti tema"
-        >
-
-            <span class="theme-icon" id="sunIcon">
-                ☀
-            </span>
-
-            <span class="theme-icon" id="moonIcon">
-                ◐
-            </span>
-
-        </button>
-
-    </div>
-
-</nav>
-
-
-<!-- ======================================================
-     HERO
-====================================================== -->
 
 <main>
 
-<section class="hero" id="beranda">
 
-    <div class="hero-inner">
+<!-- ================= HERO ================= -->
 
-        <div class="hero-content">
+<section
+  class="hero"
+  id="beranda"
+>
 
-            <div class="badge">
+  <div class="roblox-orbit">
 
-                <span class="badge-dot"></span>
+    <div class="roblox-logo"></div>
 
-                TAMA Roblox Services
-
-            </div>
-
-
-            <h1>
-
-                <span>TAMA</span>
-
-                <span class="gradient">
-                    ROBLOX SERVICES
-                </span>
-
-            </h1>
+  </div>
 
 
-            <p class="hero-description">
+  <div class="hero-content reveal">
 
-                Jasa Roblox dengan proses cepat, mudah,
-                dan praktis untuk membantu kebutuhan
-                akun Roblox kamu.
-
-            </p>
+    <div class="hero-pill">
+      UBAH UMUR • ON MIC • UBAH NEGARA
+    </div>
 
 
-            <div class="hero-buttons">
+    <h1 class="hero-title">
 
-                <a
-                    href="https://wa.me/62895391845923?text=Halo%20TAMA,%20saya%20ingin%20order%20jasa%20Roblox."
-                    target="_blank"
-                    class="btn btn-primary"
-                >
-                    Order Sekarang
-                    <span>→</span>
-                </a>
+      TAMA
 
+      <span>
+        ROBLOX SERVICES
+      </span>
 
-                <a
-                    href="#layanan"
-                    class="btn btn-secondary"
-                >
-                    Lihat Layanan
-                </a>
-
-            </div>
-
-        </div>
+    </h1>
 
 
-        <!-- HERO IMAGE MENGGUNAKAN FOTO YANG KAMU KIRIM -->
+    <p class="hero-description">
 
-        <div class="hero-art">
+      Jasa Roblox dengan proses cepat, mudah,
+      dan bantuan langsung melalui WhatsApp.
 
-            <div class="hero-ring"></div>
+    </p>
 
-            <div class="hero-card">
 
-                <img
-                    src="assets/onmic.png"
-                    alt="TAMA Roblox Services"
-                >
+    <div class="hero-buttons">
 
-                <div class="hero-card-label">
-                    TAMA Roblox Services
-                </div>
+      <a
+        class="btn"
+        href="https://wa.me/62895391845923"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Order Sekarang →
+      </a>
 
-            </div>
 
-        </div>
+      <a
+        class="btn secondary"
+        href="#layanan"
+      >
+        Lihat Layanan
+      </a>
 
     </div>
+
+  </div>
 
 </section>
 
 
-<!-- ======================================================
-     STATS
-====================================================== -->
+<!-- ================= STATS ================= -->
 
-<section class="stats reveal">
+<section class="stats">
+
+  <div class="stats-grid">
 
     <div class="stat">
 
-        <strong>5.000+</strong>
+      <div class="stat-icon">
+        ♟
+      </div>
 
-        <span>
-            Pengunjung
-        </span>
+      <div>
+
+        <b>5.000+</b>
+
+        <small>
+          Pengunjung<br>
+          Telah mengunjungi website
+        </small>
+
+      </div>
 
     </div>
 
 
     <div class="stat">
 
-        <strong>1.873</strong>
+      <div class="stat-icon">
+        ▣
+      </div>
 
-        <span>
-            Pesanan
-        </span>
+      <div>
+
+        <b>1.873</b>
+
+        <small>
+          Pesanan<br>
+          Berhasil diproses
+        </small>
+
+      </div>
 
     </div>
 
 
     <div class="stat">
 
-        <strong>24/7</strong>
+      <div class="stat-icon">
+        ◷
+      </div>
 
-        <span>
-            Layanan
-        </span>
+      <div>
+
+        <b>24/7</b>
+
+        <small>
+          Layanan<br>
+          Siap membantu
+        </small>
+
+      </div>
 
     </div>
+
+  </div>
 
 </section>
 
 
-<!-- ======================================================
-     SERVICES
-====================================================== -->
+<!-- ================= SERVICES ================= -->
 
-<section class="section" id="layanan">
+<section
+  class="section"
+  id="layanan"
+>
 
-    <div class="section-head reveal">
-
-        <span class="section-kicker">
-            LAYANAN KAMI
-        </span>
-
-        <h2>
-            Pilih Layanan Roblox
-        </h2>
-
-        <p>
-            Pilih layanan yang kamu butuhkan.
-        </p>
-
-    </div>
+  <div class="container">
 
 
-    <div class="services-wrapper">
+    <div class="heading reveal">
 
-        <div class="services">
+      <span class="heading-label">
+        LAYANAN KAMI
+      </span>
 
-            <!-- 1 -->
+      <h2>
+        Pilih Layanan Roblox
+      </h2>
 
-            <article class="service-card reveal">
-
-                <img
-                    src="assets/umur.png"
-                    class="service-img"
-                    alt="Ubah Umur Roblox"
-                >
-
-                <div class="service-content">
-
-                    <h3>
-                        Ubah Umur Roblox
-                    </h3>
-
-                    <p>
-                        Bantuan perubahan pengaturan
-                        umur pada akun Roblox.
-                    </p>
-
-                    <div class="price">
-                        Harga
-                        <strong>
-                            Rp 25.000
-                        </strong>
-                    </div>
-
-                    <button
-                        class="order-btn"
-                        onclick="order('Ubah Umur Roblox')"
-                    >
-                        Order Sekarang
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <!-- 2 -->
-
-            <article class="service-card reveal">
-
-                <span class="hot">
-                    HOT
-                </span>
-
-                <img
-                    src="assets/onmic.png"
-                    class="service-img"
-                    alt="Verifikasi On Mic Roblox"
-                >
-
-                <div class="service-content">
-
-                    <h3>
-                        Verifikasi On Mic
-                    </h3>
-
-                    <p>
-                        Bantuan proses verifikasi dan
-                        aktivasi fitur voice chat Roblox.
-                    </p>
-
-                    <div class="price">
-                        Harga
-                        <strong>
-                            Rp 25.000
-                        </strong>
-                    </div>
-
-                    <button
-                        class="order-btn"
-                        onclick="order('Verifikasi On Mic')"
-                    >
-                        Order Sekarang
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <!-- 3 -->
-
-            <article class="service-card reveal">
-
-                <img
-                    src="assets/negara.png"
-                    class="service-img"
-                    alt="Ubah Negara Roblox"
-                >
-
-                <div class="service-content">
-
-                    <h3>
-                        Ubah Negara Roblox
-                    </h3>
-
-                    <p>
-                        Bantuan perubahan region atau
-                        negara pada akun Roblox.
-                    </p>
-
-                    <div class="price">
-                        Harga
-                        <strong>
-                            Rp 25.000
-                        </strong>
-                    </div>
-
-                    <button
-                        class="order-btn"
-                        onclick="order('Ubah Negara Roblox')"
-                    >
-                        Order Sekarang
-                    </button>
-
-                </div>
-
-            </article>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ======================================================
-     WHY TAMA
-====================================================== -->
-
-<section class="section" id="keunggulan">
-
-    <div class="section-head reveal">
-
-        <span class="section-kicker">
-            KENAPA TAMA?
-        </span>
-
-        <h2>
-            Kenapa Harus TAMA?
-        </h2>
-
-        <p>
-            Dibuat agar proses order lebih mudah.
-        </p>
+      <p>
+        Geser untuk melihat layanan lainnya
+      </p>
 
     </div>
 
 
-    <div class="why-grid">
-
-        <div class="why-card reveal">
-
-            <div class="why-icon">
-                ✓
-            </div>
-
-            <h3>
-                Proses Aman
-            </h3>
-
-            <p>
-                Proses dilakukan dengan langkah
-                yang jelas dan mudah.
-            </p>
-
-        </div>
+    <div class="service-slider">
 
 
-        <div class="why-card reveal">
-
-            <div class="why-icon">
-                ⚡
-            </div>
-
-            <h3>
-                Proses Cepat
-            </h3>
-
-            <p>
-                Order langsung diarahkan ke
-                WhatsApp untuk diproses.
-            </p>
-
-        </div>
+      <div
+        class="services"
+        id="services"
+      >
 
 
-        <div class="why-card reveal">
+        <!-- ================= SERVICE 1 ================= -->
 
-            <div class="why-icon">
-                ◈
-            </div>
+        <article class="service reveal">
 
-            <h3>
-                Privasi
-            </h3>
+          <div class="service-image">
 
-            <p>
-                Jangan memberikan password
-                kepada pihak lain.
-            </p>
-
-        </div>
-
-
-        <div class="why-card reveal">
-
-            <div class="why-icon">
-                ?
-            </div>
-
-            <h3>
-                Support
-            </h3>
-
-            <p>
-                Hubungi TAMA apabila membutuhkan
-                bantuan terkait layanan.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ======================================================
-     CTA
-====================================================== -->
-
-<section class="section" id="order">
-
-    <div class="cta reveal">
-
-        <h2>
-            Siap Menggunakan Jasa TAMA?
-        </h2>
-
-        <p>
-            Pilih layanan kemudian langsung order
-            melalui WhatsApp.
-        </p>
-
-
-        <div class="cta-buttons">
-
-            <a
-                href="https://wa.me/62895391845923?text=Halo%20TAMA,%20saya%20ingin%20order%20jasa%20Roblox."
-                target="_blank"
-                class="btn btn-primary"
+            <img
+              src="assets/layanan/ubah-umur.png"
+              alt="Ubah Umur Roblox"
+              loading="lazy"
             >
-                Order via WhatsApp
-                →
-            </a>
+
+          </div>
 
 
-            <a
-                href="https://www.tiktok.com/@tamastorebna"
-                target="_blank"
-                class="btn btn-secondary"
+          <h3>
+            Ubah Umur Roblox
+          </h3>
+
+
+          <p>
+            Bantuan pengaturan umur pada akun Roblox.
+          </p>
+
+
+          <div class="price">
+            Rp 25.000
+          </div>
+
+
+          <a
+            class="order"
+            href="https://wa.me/62895391845923?text=Halo%20TAMA,%20saya%20ingin%20order%20Ubah%20Umur%20Roblox."
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Order Sekarang
+          </a>
+
+        </article>
+
+
+        <!-- ================= SERVICE 2 ================= -->
+
+        <article class="service hot reveal">
+
+          <div class="service-image">
+
+            <img
+              src="assets/layanan/on-mic.png"
+              alt="Verifikasi On Mic Roblox"
+              loading="lazy"
             >
-                TikTok @tamastorebna
-            </a>
 
-        </div>
+          </div>
+
+
+          <h3>
+            Verifikasi On Mic
+          </h3>
+
+
+          <p>
+            Bantuan proses verifikasi dan fitur voice chat Roblox.
+          </p>
+
+
+          <div class="price">
+            Rp 25.000
+          </div>
+
+
+          <a
+            class="order"
+            href="https://wa.me/62895391845923?text=Halo%20TAMA,%20saya%20ingin%20order%20Verifikasi%20On%20Mic."
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Order Sekarang
+          </a>
+
+        </article>
+
+
+        <!-- ================= SERVICE 3 ================= -->
+
+        <article class="service reveal">
+
+          <div class="service-image">
+
+            <img
+              src="assets/layanan/ubah-negara.png"
+              alt="Ubah Negara Roblox"
+              loading="lazy"
+            >
+
+          </div>
+
+
+          <h3>
+            Ubah Negara
+          </h3>
+
+
+          <p>
+            Bantuan perubahan region atau negara akun Roblox.
+          </p>
+
+
+          <div class="price">
+            Rp 25.000
+          </div>
+
+
+          <a
+            class="order"
+            href="https://wa.me/62895391845923?text=Halo%20TAMA,%20saya%20ingin%20order%20Ubah%20Negara%20Roblox."
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Order Sekarang
+          </a>
+
+        </article>
+
+
+      </div>
+
+
+      <!-- ARROWS -->
+
+      <div class="slider-arrows">
+
+        <button
+          class="slider-arrow"
+          id="prev"
+          aria-label="Layanan sebelumnya"
+        >
+          ‹
+        </button>
+
+
+        <button
+          class="slider-arrow"
+          id="next"
+          aria-label="Layanan berikutnya"
+        >
+          ›
+        </button>
+
+      </div>
 
     </div>
 
+
+    <div class="dots">
+
+      <i class="active"></i>
+      <i></i>
+      <i></i>
+
+    </div>
+
+  </div>
+
 </section>
+
+
+<!-- ================= WHY ================= -->
+
+<section class="section">
+
+  <div class="container">
+
+
+    <div class="heading reveal">
+
+      <span class="heading-label">
+        KENAPA PILIH TAMA?
+      </span>
+
+      <h2>
+        Kenapa Harus TAMA?
+      </h2>
+
+    </div>
+
+
+    <div class="why">
+
+
+      <div class="why-card reveal">
+
+        <div class="why-icon">
+          ◇
+        </div>
+
+        <h3>
+          Proses Aman
+        </h3>
+
+        <p>
+          Proses dilakukan dengan jelas dan mudah.
+        </p>
+
+      </div>
+
+
+      <div class="why-card reveal">
+
+        <div class="why-icon">
+          ϟ
+        </div>
+
+        <h3>
+          Proses Cepat
+        </h3>
+
+        <p>
+          Pesanan langsung diarahkan ke WhatsApp.
+        </p>
+
+      </div>
+
+
+      <div class="why-card reveal">
+
+        <div class="why-icon">
+          ♙
+        </div>
+
+        <h3>
+          Privasi
+        </h3>
+
+        <p>
+          Jangan membagikan password akun kepada pihak lain.
+        </p>
+
+      </div>
+
+
+      <div class="why-card reveal">
+
+        <div class="why-icon">
+          ◉
+        </div>
+
+        <h3>
+          Support
+        </h3>
+
+        <p>
+          Hubungi TAMA melalui WhatsApp kapan diperlukan.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= REVIEWS ================= -->
+
+<section
+  class="section"
+  id="ulasan"
+>
+
+  <div class="container">
+
+
+    <div class="heading reveal">
+
+      <span class="heading-label">
+        ULASAN PELANGGAN
+      </span>
+
+      <h2>
+        Apa Kata Mereka?
+      </h2>
+
+    </div>
+
+
+    <div class="reviews">
+
+
+      <div class="review reveal">
+
+        <div class="person">
+
+          <div class="avatar">
+            R
+          </div>
+
+          <div>
+
+            <b>
+              RizzStore
+            </b>
+
+            <div class="stars">
+              ★★★★★
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <p>
+          “Proses cepat dan mudah. Recommended!”
+        </p>
+
+
+        <div class="date">
+          24 Agu 2026
+        </div>
+
+      </div>
+
+
+      <div class="review reveal">
+
+        <div class="person">
+
+          <div class="avatar">
+            A
+          </div>
+
+          <div>
+
+            <b>
+              AlyaRBLX
+            </b>
+
+            <div class="stars">
+              ★★★★★
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <p>
+          “Seller ramah dan prosesnya mudah.”
+        </p>
+
+
+        <div class="date">
+          20 Agu 2026
+        </div>
+
+      </div>
+
+
+      <div class="review reveal">
+
+        <div class="person">
+
+          <div class="avatar">
+            Z
+          </div>
+
+          <div>
+
+            <b>
+              Zenn
+            </b>
+
+            <div class="stars">
+              ★★★★★
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <p>
+          “Pelayanan mantap dan respon cepat.”
+        </p>
+
+
+        <div class="date">
+          16 Agu 2026
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= FAQ ================= -->
+
+<section
+  class="section"
+  id="faq"
+>
+
+  <div class="container">
+
+
+    <div class="heading reveal">
+
+      <span class="heading-label">
+        FAQ
+      </span>
+
+      <h2>
+        Pertanyaan Umum
+      </h2>
+
+    </div>
+
+
+    <div class="faq">
+
+
+      <div class="faq-item reveal">
+
+        <div class="faq-question">
+
+          <span>
+            Bagaimana cara order?
+          </span>
+
+          <span>
+            +
+          </span>
+
+        </div>
+
+
+        <div class="faq-answer">
+
+          Klik tombol Order Sekarang.
+          Kamu akan diarahkan langsung ke WhatsApp
+          TAMA untuk melakukan pemesanan.
+
+        </div>
+
+      </div>
+
+
+      <div class="faq-item reveal">
+
+        <div class="faq-question">
+
+          <span>
+            Berapa harga layanan?
+          </span>
+
+          <span>
+            +
+          </span>
+
+        </div>
+
+
+        <div class="faq-answer">
+
+          Harga layanan yang ditampilkan di website
+          adalah Rp25.000 per layanan.
+
+        </div>
+
+      </div>
+
+
+      <div class="faq-item reveal">
+
+        <div class="faq-question">
+
+          <span>
+            Bagaimana cara menghubungi TAMA?
+          </span>
+
+          <span>
+            +
+          </span>
+
+        </div>
+
+
+        <div class="faq-answer">
+
+          Hubungi WhatsApp +62 895-3918-45923
+          atau TikTok @tamastorebna.
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+  <div class="container cta-inner">
+
+
+    <div>
+
+      <h2>
+        Siap Menggunakan Jasa Kami?
+      </h2>
+
+      <p>
+        Hubungi TAMA untuk informasi dan pemesanan layanan.
+      </p>
+
+    </div>
+
+
+    <div class="cta-buttons">
+
+
+      <a
+        class="btn"
+        href="https://wa.me/62895391845923"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Order via WhatsApp
+      </a>
+
+
+      <a
+        class="btn secondary"
+        href="https://www.tiktok.com/@tamastorebna"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Follow TikTok
+      </a>
+
+
+    </div>
+
+  </div>
+
+</section>
+
 
 </main>
 
 
-<!-- ======================================================
-     FOOTER
-====================================================== -->
+<!-- ================= FOOTER ================= -->
 
 <footer>
 
-    <div>
-        © 2026
-        <span class="footer-brand">
-            TAMA Roblox Services
-        </span>
-    </div>
+  <div class="footer-inner">
 
-    <div>
-        tamastorebna
-    </div>
+    <span>
+      © 2026 TAMA Roblox Services
+    </span>
+
+    <span>
+      Designed with passion + TAMA
+    </span>
+
+  </div>
 
 </footer>
 
 
 <script>
 
-/* =========================================================
-   LOADER
-========================================================= */
+/* ================= LOADING ================= */
 
-window.addEventListener("load", () => {
+window.addEventListener("load",()=>{
 
-    setTimeout(() => {
+  setTimeout(()=>{
+
+    document
+      .getElementById("loader")
+      .classList.add("hide");
+
+  },900);
+
+});
+
+
+/* ================= HEADER ================= */
+
+const header =
+  document.getElementById("header");
+
+window.addEventListener("scroll",()=>{
+
+  header.classList.toggle(
+    "scrolled",
+    window.scrollY > 20
+  );
+
+});
+
+
+/* ================= THEME ================= */
+
+const themeBtn =
+  document.getElementById("themeBtn");
+
+const savedTheme =
+  localStorage.getItem("tama-theme");
+
+
+if(savedTheme === "light"){
+
+  document.body.classList.add("light");
+
+}
+
+
+themeBtn.addEventListener("click",()=>{
+
+  document.body.classList.toggle("light");
+
+  localStorage.setItem(
+    "tama-theme",
+    document.body.classList.contains("light")
+      ? "light"
+      : "dark"
+  );
+
+});
+
+
+/* ================= REVEAL ================= */
+
+const observer =
+  new IntersectionObserver(
+    (entries)=>{
+
+      entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+          entry.target.classList.add("show");
+
+        }
+
+      });
+
+    },
+    {
+      threshold:.12
+    }
+  );
+
+
+document
+  .querySelectorAll(".reveal")
+  .forEach(el=>{
+
+    observer.observe(el);
+
+  });
+
+
+/* ================= SERVICE SLIDER ================= */
+
+const services =
+  document.getElementById("services");
+
+const cards =
+  document.querySelectorAll(".service");
+
+const dots =
+  document.querySelectorAll(".dots i");
+
+let current = 0;
+
+
+function goToCard(index){
+
+  if(index < 0){
+    index = 0;
+  }
+
+  if(index > cards.length - 1){
+    index = cards.length - 1;
+  }
+
+  current = index;
+
+  const cardWidth =
+    cards[0].offsetWidth + 18;
+
+  services.scrollTo({
+
+    left:cardWidth * current,
+
+    behavior:"smooth"
+
+  });
+
+
+  dots.forEach((dot,i)=>{
+
+    dot.classList.toggle(
+      "active",
+      i === current
+    );
+
+  });
+
+}
+
+
+document
+  .getElementById("next")
+  .addEventListener(
+    "click",
+    ()=>goToCard(current + 1)
+  );
+
+
+document
+  .getElementById("prev")
+  .addEventListener(
+    "click",
+    ()=>goToCard(current - 1)
+  );
+
+
+/* ================= TOUCH SLIDER ================= */
+
+let touchStart = 0;
+
+
+services.addEventListener(
+  "touchstart",
+  e=>{
+
+    touchStart =
+      e.touches[0].clientX;
+
+  },
+  {
+    passive:true
+  }
+);
+
+
+services.addEventListener(
+  "touchend",
+  e=>{
+
+    const touchEnd =
+      e.changedTouches[0].clientX;
+
+    const distance =
+      touchStart - touchEnd;
+
+
+    if(Math.abs(distance) > 45){
+
+      if(distance > 0){
+
+        goToCard(current + 1);
+
+      }else{
+
+        goToCard(current - 1);
+
+      }
+
+    }
+
+  },
+  {
+    passive:true
+  }
+);
+
+
+/* ================= FAQ ================= */
+
+document
+  .querySelectorAll(".faq-question")
+  .forEach(question=>{
+
+    question.addEventListener(
+      "click",
+      ()=>{
+
+        const item =
+          question.parentElement;
+
 
         document
-            .getElementById("loader")
-            .classList.add("hide");
+          .querySelectorAll(".faq-item")
+          .forEach(other=>{
 
-    }, 900);
+            if(other !== item){
 
-});
+              other.classList.remove("open");
+
+            }
+
+          });
 
 
-/* =========================================================
-   THEME
-========================================================= */
+        item.classList.toggle("open");
 
-const body = document.body;
-const themeBtn = document.getElementById("themeBtn");
-
-const savedTheme = localStorage.getItem("tama-theme");
-
-if (savedTheme === "light") {
-    body.classList.add("light");
-}
-
-themeBtn.addEventListener("click", () => {
-
-    body.classList.toggle("light");
-
-    localStorage.setItem(
-        "tama-theme",
-        body.classList.contains("light")
-            ? "light"
-            : "dark"
+      }
     );
 
-});
+  });
 
 
-/* =========================================================
-   ORDER WHATSAPP
-========================================================= */
+/* ================= BUTTON ANIMATION ================= */
 
-function order(service) {
+document
+  .querySelectorAll(".btn,.order")
+  .forEach(button=>{
 
-    const message =
-        `Halo TAMA, saya ingin order *${service}* dengan harga Rp 25.000.`;
+    button.addEventListener(
+      "click",
+      ()=>{
 
-    const url =
-        "https://wa.me/62895391845923?text=" +
-        encodeURIComponent(message);
+        button.animate(
+          [
+            {
+              transform:"scale(.96)"
+            },
+            {
+              transform:"scale(1)"
+            }
+          ],
+          {
+            duration:180,
+            easing:"ease-out"
+          }
+        );
 
-    window.open(url, "_blank");
-
-}
-
-
-/* =========================================================
-   SCROLL REVEAL
-========================================================= */
-
-const revealObserver =
-    new IntersectionObserver(
-        (entries) => {
-
-            entries.forEach(entry => {
-
-                if (entry.isIntersecting) {
-
-                    entry.target.classList.add("show");
-
-                    revealObserver.unobserve(
-                        entry.target
-                    );
-
-                }
-
-            });
-
-        },
-        {
-            threshold: .12
-        }
+      }
     );
 
-
-document
-    .querySelectorAll(".reveal")
-    .forEach(el => {
-
-        revealObserver.observe(el);
-
-    });
+  });
 
 
-/* =========================================================
-   FLOATING PARTICLES
-========================================================= */
-
-function createParticle() {
-
-    const particle =
-        document.createElement("div");
-
-    particle.className = "particle";
-
-    particle.style.left =
-        Math.random() * 100 + "vw";
-
-    particle.style.animationDuration =
-        (5 + Math.random() * 8) + "s";
-
-    particle.style.animationDelay =
-        Math.random() * 5 + "s";
-
-    particle.style.width =
-        (2 + Math.random() * 4) + "px";
-
-    particle.style.height =
-        particle.style.width;
-
-    document.body.appendChild(particle);
-
-    setTimeout(() => {
-        particle.remove();
-    }, 15000);
-
-}
-
-setInterval(createParticle, 500);
-
-
-/* =========================================================
-   BUTTON CLICK EFFECT
-========================================================= */
-
-document
-    .querySelectorAll(".btn, .order-btn, .theme-btn")
-    .forEach(button => {
-
-        button.addEventListener("click", function() {
-
-            this.animate(
-                [
-                    {
-                        transform: "scale(1)"
-                    },
-                    {
-                        transform: "scale(.94)"
-                    },
-                    {
-                        transform: "scale(1)"
-                    }
-                ],
-                {
-                    duration: 220,
-                    easing: "ease-out"
-                }
-            );
-
-        });
-
-    });
-
-
-/* =========================================================
-   NAV ACTIVE
-========================================================= */
+/* ================= ACTIVE NAV ================= */
 
 const sections =
-    document.querySelectorAll("section[id]");
+  document.querySelectorAll(
+    "section[id]"
+  );
 
 const navLinks =
-    document.querySelectorAll(".nav-links a");
+  document.querySelectorAll(
+    ".nav-links a"
+  );
 
-window.addEventListener("scroll", () => {
 
-    let current = "";
+window.addEventListener(
+  "scroll",
+  ()=>{
 
-    sections.forEach(section => {
+    let currentSection =
+      "beranda";
 
-        const top =
-            section.offsetTop - 180;
 
-        if (
-            window.scrollY >= top
-        ) {
-            current =
-                section.getAttribute("id");
-        }
+    sections.forEach(section=>{
 
-    });
+      const top =
+        section.offsetTop - 130;
 
-    navLinks.forEach(link => {
 
-        link.classList.remove("active");
+      if(window.scrollY >= top){
 
-        if (
-            link.getAttribute("href") ===
-            "#" + current
-        ) {
-            link.classList.add("active");
-        }
+        currentSection =
+          section.id;
+
+      }
 
     });
 
-});
+
+    navLinks.forEach(link=>{
+
+      link.classList.remove("active");
 
 
-/* =========================================================
-   SMOOTH IMAGE FALLBACK
-========================================================= */
+      if(
+        link.getAttribute("href")
+        === "#" + currentSection
+      ){
 
-document
-    .querySelectorAll("img")
-    .forEach(img => {
+        link.classList.add("active");
 
-        img.addEventListener("error", () => {
-
-            img.style.background =
-                "linear-gradient(135deg,#27104b,#7018b8)";
-
-        });
+      }
 
     });
+
+  }
+);
+
+
+/* ================= PARTICLES ================= */
+
+for(let i = 0; i < 30; i++){
+
+  const particle =
+    document.createElement("div");
+
+  particle.className =
+    "particle";
+
+
+  particle.style.left =
+    Math.random() * 100 + "vw";
+
+
+  particle.style.animationDuration =
+    5 + Math.random() * 9 + "s";
+
+
+  particle.style.animationDelay =
+    Math.random() * 7 + "s";
+
+
+  particle.style.opacity =
+    .2 + Math.random() * .6;
+
+
+  document.body.appendChild(
+    particle
+  );
+
+}
 
 </script>
 
