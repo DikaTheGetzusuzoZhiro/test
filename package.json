@@ -1,0 +1,19 @@
+{
+  "name": "tama-roblox",
+  "version": "1.0.0",
+  "description": "TAMA Roblox Services - Sistem Order dengan Supabase",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "keywords": ["roblox", "order", "supabase", "realtime"],
+  "author": "TAMA Store",
+  "license": "MIT"
+}
