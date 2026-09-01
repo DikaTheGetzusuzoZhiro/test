@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 // 🔑 GANTI DENGAN CREDENTIAL SUPABASE ANDA
-const SUPABASE_URL = 'https://your-project.supabase.co';
-const SUPABASE_ANON_KEY = 'your-anon-key';
+const SUPABASE_URL = 'https://puscykjiuwdbkytoigoe.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_TbKYM5XREVbBpp8EE1GXCg_gDr4uvZd';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
