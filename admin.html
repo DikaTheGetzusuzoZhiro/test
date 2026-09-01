@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - TAMA Roblox</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .admin-header h1 {
+      font-family: 'Space Grotesk';
+      font-size: 28px;
+    }
+    .admin-header .stats {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+    }
+    .admin-header .stats span {
+      background: var(--card);
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+    }
+    .admin-header .stats .count {
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-state h3 {
+      font-family: 'Space Grotesk';
+      font-size: 20px;
+      color: var(--text);
+    }
+    .admin-table .proof-thumb {
+      max-height: 50px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .refresh-btn {
+      padding: 8px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 11px;
+      transition: .25s;
+    }
+    .refresh-btn:hover {
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADING -->
+  <div id="loader">
+    <div class="loader-box">
+      <div class="loader-logo">TAMA</div>
+      <div class="loader-sub">ADMIN PANEL</div>
+      <div class="loader-bar"><span></span></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav">
+      <a href="index.html" class="brand">
+        TAMA
+        <small>ADMIN</small>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Beranda</a>
+        <a href="admin.html" class="active">Admin</a>
+        <a href="history.html">Riwayat</a>
+      </nav>
+      <a href="admin.html" class="admin-icon" title="Admin Panel">🔐</a>
+      <button class="theme-btn" id="themeBtn" aria-label="Ganti tema">
+        <span>☼</span>
+        <span>◐</span>
+        <i class="theme-slider"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="admin-header">
+        <h1>🔐 Admin Panel</h1>
+        <div class="stats">
+          <span>Total: <span class="count" id="totalOrders">0</span></span>
+          <span>⏳ Pending: <span class="count" id="pendingOrders">0</span></span>
+          <span>✅ Approved: <span class="count" id="approvedOrders">0</span></span>
+          <button class="refresh-btn" id="refreshBtn">⟳ Refresh</button>
+        </div>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="adminTable">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Layanan</th>
+              <th>Harga</th>
+              <th>Telepon</th>
+              <th>Bukti</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody">
+            <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted);">Loading data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <h3>Belum ada order</h3>
+        <p style="color:var(--muted);font-size:12px;">Tunggu pelanggan melakukan order.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span>© 2026 TAMA Roblox Services</span>
+      <span>Admin online 24 jam</span>
+    </div>
+  </footer>
+
+  <!-- ZOOM -->
+  <div class="zoom-overlay" id="zoomOverlay" onclick="closeZoom()">
+    <img id="zoomImage" src="" alt="Zoom" />
+  </div>
+
+  <script type="module">
+    import { supabase, subscribeOrders } from './supabase.js';
+
+    // ===== LOADING =====
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hide');
+      }, 800);
+    });
+
+    // ===== THEME =====
+    const themeBtn = document.getElementById('themeBtn');
+    const saved = localStorage.getItem('tama-theme');
+    if (saved === 'light') document.body.classList.add('light');
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      localStorage.setItem('tama-theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    });
+
+    // ===== ZOOM =====
+    window.zoomImage = document.getElementById('zoomImage');
+    window.zoomOverlay = document.getElementById('zoomOverlay');
+    window.openZoom = (src) => {
+      if (src) { zoomImage.src = src; zoomOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    };
+    window.closeZoom = () => {
+      zoomOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeZoom(); });
+
+    // ===== ELEMENTS =====
+    const tbody = document.getElementById('adminTableBody');
+    const emptyState = document.getElementById('emptyState');
+    const totalEl = document.getElementById('totalOrders');
+    const pendingEl = document.getElementById('pendingOrders');
+    const approvedEl = document.getElementById('approvedOrders');
+
+    let orders = [];
+
+    // ===== RENDER TABLE =====
+    function renderTable(data) {
+      orders = data || [];
+      tbody.innerHTML = '';
+
+      if (orders.length === 0) {
+        emptyState.style.display = 'block';
+        document.querySelector('.admin-table-wrap').style.display = 'none';
+        return;
+      }
+      emptyState.style.display = 'none';
+      document.querySelector('.admin-table-wrap').style.display = 'block';
+
+      // Sort by created_at desc
+      orders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+      let pending = 0,
+        approved = 0;
+      orders.forEach(order => {
+        if (order.status === 'pending') pending++;
+        if (order.status === 'approved') approved++;
+
+        const date = new Date(order.created_at).toLocaleDateString('id-ID', {
+          day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+
+        const statusClass = order.status === 'pending' ? 'status-pending' :
+          order.status === 'approved' ? 'status-approved' : 'status-rejected';
+        const statusLabel = order.status === 'pending' ? '⏳ Pending' :
+          order.status === 'approved' ? '✅ Approved' : '❌ Rejected';
+
+        const proofHtml = order.proof_url ?
+          `<img src="${order.proof_url}" class="proof-thumb" onclick="openZoom('${order.proof_url}')" />` :
+          '-';
+
+        const actionsHtml = order.status === 'pending' ?
+          `<div class="actions">
+            <button class="btn btn-success btn-sm" onclick="approveOrder('${order.id}')">Setujui</button>
+            <button class="btn btn-danger btn-sm" onclick="rejectOrder('${order.id}')">Tolak</button>
+          </div>` :
+          `<span style="font-size:10px;color:var(--muted);">${order.status === 'approved' ? '✅ Sudah disetujui' : '❌ Ditolak'}</span>`;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${date}</td>
+          <td><strong>${order.service}</strong></td>
+          <td>Rp ${new Intl.NumberFormat('id-ID').format(order.price)}</td>
+          <td>${order.phone}</td>
+          <td>${proofHtml}</td>
+          <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
+          <td>${actionsHtml}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      totalEl.textContent = orders.length;
+      pendingEl.textContent = pending;
+      approvedEl.textContent = approved;
+    }
+
+    // ===== FETCH ORDERS =====
+    async function fetchOrders() {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching orders:', error);
+        return;
+      }
+      renderTable(data);
+    }
+
+    // ===== APPROVE / REJECT =====
+    window.approveOrder = async (id) => {
+      if (!confirm('Setujui pembayaran ini?')) return;
+      const { error } = await supabase
+        .from('orders')
+        .update({ status: 'approved', updated_at: new Date().toISOString() })
+        .eq('id', id);
+      if (error) { alert('Error: ' + error.message); } else { fetchOrders(); }
+    };
+
+    window.rejectOrder = async (id) => {
+      if (!confirm('Tolak pembayaran ini?')) return;
+      const { error } = await supabase
+        .from('orders')
+        .update({ status: 'rejected', updated_at: new Date().toISOString() })
+        .eq('id', id);
+      if (error) { alert('Error: ' + error.message); } else { fetchOrders(); }
+    };
+
+    // ===== REAL-TIME SUBSCRIPTION =====
+    subscribeOrders((payload) => {
+      console.log('Real-time update:', payload);
+      fetchOrders();
+    });
+
+    // ===== REFRESH =====
+    document.getElementById('refreshBtn').addEventListener('click', fetchOrders);
+
+    // ===== INIT =====
+    fetchOrders();
+
+    console.log('🔐 Admin Panel siap dengan real-time!');
+  </script>
+</body>
+</html>
