@@ -1003,7 +1003,6 @@
             letter-spacing: .5px;
         }
 
-        /* Tombol unduh QRIS */
         .btn-download-qris {
             display: inline-flex;
             align-items: center;
@@ -1033,8 +1032,8 @@
             background: #e0c4f5;
         }
 
-        /* Zoom QRIS overlay */
-        .qris-zoom-overlay {
+        /* Zoom overlay (QRIS & bukti) */
+        .zoom-overlay {
             position: fixed;
             inset: 0;
             z-index: 3000;
@@ -1046,10 +1045,10 @@
             padding: 40px;
             cursor: pointer;
         }
-        .qris-zoom-overlay.open {
+        .zoom-overlay.open {
             display: flex;
         }
-        .qris-zoom-overlay img {
+        .zoom-overlay img {
             max-width: 90%;
             max-height: 90%;
             object-fit: contain;
@@ -1089,7 +1088,7 @@
             }
         }
 
-        /* Upload - dengan ikon SVG file */
+        /* Upload area dengan preview */
         .upload-area {
             border: 2px dashed var(--line);
             border-radius: 14px;
@@ -1129,11 +1128,82 @@
             opacity: 0;
             cursor: pointer;
         }
-        .file-name {
+        .file-info {
             font-size: 10px;
             color: var(--primary);
             margin-top: 4px;
             font-weight: 600;
+        }
+        /* Preview thumbnail */
+        .file-preview {
+            margin-top: 10px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .file-preview.show {
+            display: flex;
+        }
+        .file-preview img {
+            max-height: 100px;
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            cursor: pointer;
+            transition: .2s;
+            object-fit: contain;
+        }
+        .file-preview img:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(170, 43, 255, .2);
+        }
+        .file-preview .file-doc {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            color: var(--muted);
+            background: rgba(255, 255, 255, .05);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+        }
+        body.light .file-preview .file-doc {
+            background: rgba(0, 0, 0, .03);
+            color: #665a70;
+        }
+        .file-preview .file-doc svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--muted);
+            fill: none;
+            stroke-width: 1.8;
+        }
+
+        .btn-preview {
+            margin-top: 4px;
+            font-size: 9px;
+            background: rgba(170, 43, 255, .1);
+            border: 1px solid var(--line);
+            color: var(--text);
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: .2s;
+            display: inline-block;
+        }
+        .btn-preview:hover {
+            background: rgba(170, 43, 255, .2);
+            border-color: var(--primary);
+        }
+        body.light .btn-preview {
+            color: #61118a;
+            background: #f0dcff;
+        }
+        body.light .btn-preview:hover {
+            background: #e0c4f5;
         }
 
         /* Modal buttons */
@@ -1162,7 +1232,6 @@
             background: #fff;
         }
 
-        /* status message */
         .status-msg {
             text-align: center;
             font-size: 11px;
@@ -1459,7 +1528,7 @@
                     <div class="why-card reveal">
                         <div class="why-icon">♙</div>
                         <h3>Privasi</h3>
-                        <p>Data akun akan di jaga 100%.</p>
+                        <p>Jangan membagikan password akun kepada pihak lain.</p>
                     </div>
                     <div class="why-card reveal">
                         <div class="why-icon">◉</div>
@@ -1598,9 +1667,9 @@
                 <span class="detail-value" id="modalPrice">Rp 25.000</span>
             </div>
 
-            <!-- QRIS - FULL tanpa bercak putih + bisa diklik zoom + tombol download -->
+            <!-- QRIS -->
             <div class="qris-box">
-                <img src="assets/layanan/qris.png" alt="QRIS Pembayaran" id="qrisImage" onclick="zoomQRIS()" />
+                <img src="assets/layanan/qris.png" alt="QRIS Pembayaran" id="qrisImage" onclick="openZoom('qris')" />
                 <div class="qris-label">Klik gambar untuk memperbesar</div>
                 <div style="margin-top: 6px;">
                     <a href="assets/layanan/qris.png" download="qris-tama.png" class="btn-download-qris">⬇ Unduh QRIS</a>
@@ -1613,7 +1682,7 @@
                 <span class="time" id="timerDisplay">10:00</span>
             </div>
 
-            <!-- Upload bukti dengan ikon SVG file -->
+            <!-- Upload bukti dengan preview -->
             <div class="upload-area" id="uploadArea">
                 <div class="file-icon">
                     <svg viewBox="0 0 24 24">
@@ -1625,7 +1694,20 @@
                 </div>
                 <div class="hint">Klik atau seret bukti transfer di sini</div>
                 <input type="file" id="fileInput" accept="image/*,.pdf,.jpg,.jpeg,.png" />
-                <div class="file-name" id="fileName"></div>
+                <div class="file-info" id="fileInfo"></div>
+                <div class="file-preview" id="filePreview">
+                    <img id="previewImg" src="#" alt="Preview bukti" onclick="openZoom('preview')" style="display:none;" />
+                    <div class="file-doc" id="docIcon" style="display:none;">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+                            <path d="M14 2v6h6" />
+                            <path d="M4 12h16" />
+                            <path d="M4 16h10" />
+                            <path d="M4 8h4" />
+                        </svg>
+                        <span id="docName">file.pdf</span>
+                    </div>
+                </div>
             </div>
 
             <!-- status -->
@@ -1639,9 +1721,9 @@
         </div>
     </div>
 
-    <!-- ===== QRIS ZOOM OVERLAY ===== -->
-    <div class="qris-zoom-overlay" id="qrisZoom" onclick="closeZoomQRIS()">
-        <img src="assets/layanan/qris.png" alt="QRIS Perbesar" />
+    <!-- ===== ZOOM OVERLAY (QRIS & BUKTI) ===== -->
+    <div class="zoom-overlay" id="zoomOverlay" onclick="closeZoom()">
+        <img id="zoomImage" src="" alt="Zoom" />
     </div>
 
     <script>
@@ -1774,22 +1856,38 @@
         }
 
         /* ============================================================
-           QRIS ZOOM
+           ZOOM (QRIS & PREVIEW)
            ============================================================ */
-        function zoomQRIS() {
-            document.getElementById('qrisZoom').classList.add('open');
-            document.body.style.overflow = 'hidden';
+        const zoomOverlay = document.getElementById('zoomOverlay');
+        const zoomImage = document.getElementById('zoomImage');
+
+        function openZoom(type) {
+            let src = '';
+            if (type === 'qris') {
+                src = document.getElementById('qrisImage').src;
+            } else if (type === 'preview') {
+                const img = document.getElementById('previewImg');
+                if (img.style.display !== 'none' && img.src) {
+                    src = img.src;
+                } else {
+                    // jika bukan gambar, tidak ada preview
+                    return;
+                }
+            }
+            if (src) {
+                zoomImage.src = src;
+                zoomOverlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
-        function closeZoomQRIS() {
-            document.getElementById('qrisZoom').classList.remove('open');
+        function closeZoom() {
+            zoomOverlay.classList.remove('open');
             document.body.style.overflow = '';
         }
 
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeZoomQRIS();
-            }
+            if (e.key === 'Escape') closeZoom();
         });
 
         /* ============================================================
@@ -1803,10 +1901,13 @@
         const modalPrice = document.getElementById('modalPrice');
         const timerDisplay = document.getElementById('timerDisplay');
         const fileInput = document.getElementById('fileInput');
-        const fileName = document.getElementById('fileName');
+        const fileInfo = document.getElementById('fileInfo');
+        const previewContainer = document.getElementById('filePreview');
+        const previewImg = document.getElementById('previewImg');
+        const docIcon = document.getElementById('docIcon');
+        const docName = document.getElementById('docName');
         const statusMsg = document.getElementById('statusMsg');
         const modalConfirm = document.getElementById('modalConfirm');
-        const uploadArea = document.getElementById('uploadArea');
 
         let selectedService = '';
         let selectedPrice = 25000;
@@ -1820,9 +1921,14 @@
             modalService.textContent = service;
             modalPrice.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(selectedPrice);
 
+            // reset
             uploadedFile = null;
             fileInput.value = '';
-            fileName.textContent = '';
+            fileInfo.textContent = '';
+            previewContainer.classList.remove('show');
+            previewImg.style.display = 'none';
+            docIcon.style.display = 'none';
+            previewImg.src = '';
             statusMsg.className = 'status-msg';
             statusMsg.textContent = '';
             modalConfirm.disabled = true;
@@ -1868,23 +1974,48 @@
             timerDisplay.classList.toggle('warning', timeLeft <= 60);
         }
 
+        // Handle file upload
         fileInput.addEventListener('change', function(e) {
             const file = this.files[0];
-            if (file) {
-                uploadedFile = file;
-                fileName.textContent = ' ' + file.name;
-                statusMsg.className = 'status-msg';
-                statusMsg.textContent = '';
-                if (timeLeft > 0) {
-                    modalConfirm.disabled = false;
-                }
-            } else {
+            if (!file) {
                 uploadedFile = null;
-                fileName.textContent = '';
+                fileInfo.textContent = '';
+                previewContainer.classList.remove('show');
+                previewImg.style.display = 'none';
+                docIcon.style.display = 'none';
                 modalConfirm.disabled = true;
+                return;
+            }
+
+            uploadedFile = file;
+            fileInfo.textContent = ' ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+            previewContainer.classList.add('show');
+
+            // Cek apakah file gambar
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImg.src = event.target.result;
+                    previewImg.style.display = 'block';
+                    docIcon.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // File non-gambar (PDF, dll)
+                previewImg.style.display = 'none';
+                docIcon.style.display = 'flex';
+                docName.textContent = file.name;
+            }
+
+            statusMsg.className = 'status-msg';
+            statusMsg.textContent = '';
+            if (timeLeft > 0) {
+                modalConfirm.disabled = false;
             }
         });
 
+        // Drag & drop
+        const uploadArea = document.getElementById('uploadArea');
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
             uploadArea.style.borderColor = 'var(--primary)';
@@ -1905,6 +2036,7 @@
             }
         });
 
+        // Confirm
         modalConfirm.addEventListener('click', function() {
             if (!uploadedFile) {
                 statusMsg.textContent = 'Silakan upload bukti transfer terlebih dahulu.';
@@ -1936,6 +2068,7 @@
             }, 800);
         });
 
+        // Event listeners
         document.querySelectorAll('.order-trigger').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
