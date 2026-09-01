@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order - TAMA Roblox</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .order-wrapper {
+      max-width: 560px;
+      margin: 40px auto;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 16px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+    }
+    .back-link:hover {
+      color: var(--text);
+    }
+    .order-status-box {
+      margin-top: 20px;
+      padding: 16px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      text-align: center;
+      display: none;
+    }
+    .order-status-box.show {
+      display: block;
+    }
+    .order-status-box .status-badge {
+      font-size: 14px;
+      padding: 8px 24px;
+    }
+    .order-status-box .order-id {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .btn-pay {
+      width: 100%;
+      padding: 14px;
+      font-size: 13px;
+    }
+    .desc-text {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin: 8px 0 14px;
+    }
+    .desc-text strong {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADING -->
+  <div id="loader">
+    <div class="loader-box">
+      <div class="loader-logo">TAMA</div>
+      <div class="loader-sub">ROBLOX SERVICES</div>
+      <div class="loader-bar"><span></span></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav">
+      <a href="index.html" class="brand">
+        TAMA
+        <small>ROBLOX SERVICES</small>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Beranda</a>
+        <a href="index.html#layanan">Layanan</a>
+        <a href="history.html">Riwayat</a>
+      </nav>
+      <a class="tiktok" href="https://www.tiktok.com/@tamastorebna" target="_blank" rel="noopener">
+        <div class="tiktok-icon"></div>
+        <span>tamastorebna <small>Follow</small></span>
+      </a>
+      <a href="admin.html" class="admin-icon" title="Admin Panel">🔐</a>
+      <button class="theme-btn" id="themeBtn" aria-label="Ganti tema">
+        <span>☼</span>
+        <span>◐</span>
+        <i class="theme-slider"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="order-wrapper">
+
+        <a href="index.html#layanan" class="back-link">← Kembali ke Layanan</a>
+
+        <div class="order-form" id="orderForm">
+          <h2 style="text-align:center;font-family:'Space Grotesk';font-size:22px;">Pemesanan</h2>
+          <p class="desc-text">
+            Order bisa melalui WhatsApp atau langsung di sini.<br />
+            <strong>Admin online 24 jam</strong> siap membantu.
+          </p>
+
+          <!-- Service Info -->
+          <div class="service-info">
+            <h3 id="serviceName">-</h3>
+            <div class="price-display" id="servicePrice">Rp 0</div>
+          </div>
+
+          <!-- Phone Input -->
+          <div class="form-group">
+            <label>📱 Nomor Telepon</label>
+            <input type="tel" id="phoneInput" placeholder="Contoh: 08123456789" required />
+            <div class="hint">Masukkan nomor WhatsApp aktif untuk konfirmasi order</div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="form-group">
+            <label>Metode Pembayaran</label>
+            <select id="paymentMethod">
+              <option value="qris">QRIS (Scan Barcode)</option>
+            </select>
+          </div>
+
+          <!-- QRIS -->
+          <div class="qris-box">
+            <img src="assets/layanan/qris.png" alt="QRIS" id="qrisImage" onclick="openZoom(this.src)" />
+            <div class="qris-label">Scan QRIS untuk membayar</div>
+            <a href="assets/layanan/qris.png" download="qris-tama.png" class="btn-download">⬇ Unduh QRIS</a>
+          </div>
+
+          <!-- Estimasi -->
+          <div class="form-group" style="text-align:center;background:rgba(170,43,255,.06);padding:12px;border-radius:12px;border:1px solid var(--line);">
+            <span style="font-size:11px;color:var(--muted);">⏱ Estimasi waktu verifikasi</span>
+            <div style="font-family:'Space Grotesk';font-size:20px;font-weight:800;color:var(--primary);">5 - 10 menit</div>
+          </div>
+
+          <!-- Tombol Lanjut -->
+          <button class="btn btn-pay" id="btnContinue" style="margin-top:12px;">Lanjut ke Pembayaran</button>
+
+          <!-- Order Status (setelah bayar) -->
+          <div class="order-status-box" id="orderStatusBox">
+            <div class="status-badge status-pending" id="orderStatusBadge">⏳ Menunggu Verifikasi</div>
+            <div class="order-id" id="orderIdDisplay"></div>
+            <div style="margin-top:12px;font-size:11px;color:var(--muted);">
+              Bukti transfer sudah diupload. Admin akan memverifikasi segera.
+            </div>
+            <a href="history.html" class="btn btn-secondary" style="margin-top:10px;display:inline-block;font-size:10px;">Lihat Riwayat</a>
+          </div>
+
+          <!-- Upload Area (hidden dulu) -->
+          <div id="uploadSection" style="display:none;margin-top:14px;">
+            <div class="upload-area" id="uploadArea">
+              <div class="hint">📎 Klik atau seret bukti transfer di sini</div>
+              <input type="file" id="fileInput" accept="image/*" />
+              <div class="file-name" id="fileName"></div>
+            </div>
+            <div class="file-preview" id="filePreview">
+              <img id="previewImg" src="#" alt="Preview" onclick="openZoom(this.src)" style="max-height:80px;border-radius:8px;display:none;" />
+            </div>
+            <button class="btn btn-success" id="btnSubmitProof" style="width:100%;margin-top:10px;" disabled>✅ Saya Sudah Bayar & Upload Bukti</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span>© 2026 TAMA Roblox Services</span>
+      <span>Admin online 24 jam • WhatsApp 0895-3918-45923</span>
+    </div>
+  </footer>
+
+  <!-- ZOOM -->
+  <div class="zoom-overlay" id="zoomOverlay" onclick="closeZoom()">
+    <img id="zoomImage" src="" alt="Zoom" />
+  </div>
+
+  <script type="module">
+    import { supabase, uploadProof, subscribeOrders } from './supabase.js';
+
+    // ===== LOADING =====
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hide');
+      }, 800);
+    });
+
+    // ===== THEME =====
+    const themeBtn = document.getElementById('themeBtn');
+    const saved = localStorage.getItem('tama-theme');
+    if (saved === 'light') document.body.classList.add('light');
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      localStorage.setItem('tama-theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    });
+
+    // ===== ZOOM =====
+    window.zoomImage = document.getElementById('zoomImage');
+    window.zoomOverlay = document.getElementById('zoomOverlay');
+    window.openZoom = (src) => {
+      if (src) { zoomImage.src = src; zoomOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    };
+    window.closeZoom = () => {
+      zoomOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeZoom(); });
+
+    // ===== GET SERVICE FROM URL =====
+    const params = new URLSearchParams(window.location.search);
+    const serviceName = params.get('service') || 'Layanan Roblox';
+    const servicePrice = parseInt(params.get('price')) || 25000;
+
+    document.getElementById('serviceName').textContent = serviceName;
+    document.getElementById('servicePrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(servicePrice);
+
+    // ===== ELEMENTS =====
+    const phoneInput = document.getElementById('phoneInput');
+    const btnContinue = document.getElementById('btnContinue');
+    const uploadSection = document.getElementById('uploadSection');
+    const fileInput = document.getElementById('fileInput');
+    const fileName = document.getElementById('fileName');
+    const previewImg = document.getElementById('previewImg');
+    const filePreview = document.getElementById('filePreview');
+    const btnSubmit = document.getElementById('btnSubmitProof');
+    const orderStatusBox = document.getElementById('orderStatusBox');
+    const orderStatusBadge = document.getElementById('orderStatusBadge');
+    const orderIdDisplay = document.getElementById('orderIdDisplay');
+
+    let currentOrderId = null;
+    let uploadedFile = null;
+    let isSubscribed = false;
+
+    // ===== CONTINUE =====
+    btnContinue.addEventListener('click', () => {
+      const phone = phoneInput.value.trim();
+      if (!phone || phone.length < 10) {
+        alert('Silakan masukkan nomor telepon yang valid.');
+        phoneInput.focus();
+        return;
+      }
+      // Sembunyikan tombol lanjut, tampilkan upload
+      btnContinue.style.display = 'none';
+      uploadSection.style.display = 'block';
+    });
+
+    // ===== FILE UPLOAD =====
+    fileInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      uploadedFile = file;
+      fileName.textContent = '📄 ' + file.name;
+
+      // Preview
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          previewImg.src = ev.target.result;
+          previewImg.style.display = 'block';
+          filePreview.style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
+      }
+
+      btnSubmit.disabled = false;
+    });
+
+    // ===== SUBMIT PROOF =====
+    btnSubmit.addEventListener('click', async () => {
+      if (!uploadedFile) {
+        alert('Silakan upload bukti transfer terlebih dahulu.');
+        return;
+      }
+
+      const phone = phoneInput.value.trim();
+
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = '⏳ Mengupload...';
+
+      try {
+        // 1. Buat order di Supabase
+        const { data: order, error: insertError } = await supabase
+          .from('orders')
+          .insert({
+            service: serviceName,
+            price: servicePrice,
+            phone: phone,
+            payment_method: 'qris',
+            status: 'pending',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .select()
+          .single();
+
+        if (insertError) throw insertError;
+
+        currentOrderId = order.id;
+
+        // 2. Upload bukti ke Storage
+        const proofUrl = await uploadProof(uploadedFile, order.id);
+
+        // 3. Update order dengan proof_url
+        const { error: updateError } = await supabase
+          .from('orders')
+          .update({ proof_url: proofUrl, updated_at: new Date().toISOString() })
+          .eq('id', order.id);
+
+        if (updateError) throw updateError;
+
+        // 4. Tampilkan status
+        orderStatusBox.classList.add('show');
+        orderStatusBadge.textContent = '⏳ Menunggu Verifikasi';
+        orderStatusBadge.className = 'status-badge status-pending';
+        orderIdDisplay.textContent = 'ID Order: ' + order.id.substring(0, 8);
+
+        // Sembunyikan upload section
+        uploadSection.style.display = 'none';
+
+        // 5. Subscribe real-time untuk update status
+        if (!isSubscribed) {
+          subscribeOrders((payload) => {
+            if (payload.new && payload.new.id === currentOrderId) {
+              const status = payload.new.status;
+              if (status === 'approved') {
+                orderStatusBadge.textContent = '✅ Disetujui';
+                orderStatusBadge.className = 'status-badge status-approved';
+              } else if (status === 'rejected') {
+                orderStatusBadge.textContent = '❌ Ditolak';
+                orderStatusBadge.className = 'status-badge status-rejected';
+              }
+            }
+          });
+          isSubscribed = true;
+        }
+
+        // Simpan order ID di localStorage untuk riwayat
+        const history = JSON.parse(localStorage.getItem('tama-orders') || '[]');
+        history.push({
+          id: order.id,
+          service: serviceName,
+          price: servicePrice,
+          phone: phone,
+          status: 'pending',
+          date: new Date().toISOString()
+        });
+        localStorage.setItem('tama-orders', JSON.stringify(history));
+
+        alert('✅ Bukti berhasil diupload! Admin akan memverifikasi segera.');
+
+      } catch (error) {
+        console.error('Error:', error);
+        alert('❌ Gagal memproses order: ' + error.message);
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = '✅ Saya Sudah Bayar & Upload Bukti';
+      }
+    });
+
+    console.log('📋 Order page loaded for:', serviceName);
+  </script>
+</body>
+</html>
