@@ -1,8 +1,8 @@
-import RecentPurchases from '@/components/RecentPurchases'
-import ProductGrid from '@/components/ProductGrid'
-import WhyChooseUs from '@/components/WhyChooseUs'
-import HowItWorks from '@/components/HowItWorks'
-import Testimonials from '@/components/Testimonials'
+import RecentPurchases from '../components/RecentPurchases'
+import ProductGrid from '../components/ProductGrid'
+import WhyChooseUs from '../components/WhyChooseUs'
+import HowItWorks from '../components/HowItWorks'
+import Testimonials from '../components/Testimonials'
 
 export default function Home() {
   return (
