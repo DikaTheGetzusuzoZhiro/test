@@ -23,6 +23,7 @@
             --line: rgba(194, 73, 255, .38);
             --shadow: 0 20px 70px rgba(135, 25, 255, .22);
             --radius: 17px;
+            --timer-color: #ff6b6b;
         }
 
         * {
@@ -54,6 +55,7 @@
             --primary2: #bd40ff;
             --line: rgba(125, 39, 185, .28);
             --shadow: 0 20px 60px rgba(120, 45, 170, .16);
+            --timer-color: #b33b3b;
             background: radial-gradient(circle at 50% -10%, #ead1ff 0, transparent 38%),
                 linear-gradient(180deg, #fbf8ff, #eee3fb);
         }
@@ -554,6 +556,25 @@
             font-weight: 900;
             box-shadow: 0 8px 20px #ff315d44;
         }
+        /* badge QRIS */
+        .service .qris-badge {
+            position: absolute;
+            bottom: 70px;
+            right: 14px;
+            background: rgba(0, 0, 0, .7);
+            color: #fff;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, .2);
+            backdrop-filter: blur(4px);
+            letter-spacing: .5px;
+        }
+        body.light .service .qris-badge {
+            background: rgba(255, 255, 255, .85);
+            color: #24142f;
+        }
         .service-image {
             width: 100%;
             height: 185px;
@@ -870,8 +891,8 @@
         }
 
         /* ============================================================
-                   ORDER MODAL
-                   ============================================================ */
+           ORDER MODAL
+           ============================================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -992,12 +1013,12 @@
             font-family: 'Space Grotesk';
             font-size: 20px;
             font-weight: 800;
-            color: #ff6b6b;
+            color: var(--timer-color);
             min-width: 64px;
             text-align: center;
+            transition: color .3s;
         }
         .timer-wrap .time.warning {
-            color: #ff3b3b;
             animation: pulse 1s infinite;
         }
         @keyframes pulse {
@@ -1307,6 +1328,7 @@
                             <h3>Ubah Umur Roblox</h3>
                             <p>Bantuan pengaturan umur pada akun Roblox.</p>
                             <div class="price">Rp 25.000</div>
+                            <span class="qris-badge">QRIS</span>
                             <button class="order order-trigger" data-service="Ubah Umur Roblox" data-price="25000">Order Sekarang</button>
                         </article>
 
@@ -1318,6 +1340,7 @@
                             <h3>Verifikasi On Mic</h3>
                             <p>Bantuan proses verifikasi dan fitur voice chat Roblox.</p>
                             <div class="price">Rp 25.000</div>
+                            <span class="qris-badge">QRIS</span>
                             <button class="order order-trigger" data-service="Verifikasi On Mic" data-price="25000">Order Sekarang</button>
                         </article>
 
@@ -1329,6 +1352,7 @@
                             <h3>Ubah Negara</h3>
                             <p>Bantuan perubahan region atau negara akun Roblox.</p>
                             <div class="price">Rp 25.000</div>
+                            <span class="qris-badge">QRIS</span>
                             <button class="order order-trigger" data-service="Ubah Negara" data-price="25000">Order Sekarang</button>
                         </article>
 
@@ -1508,20 +1532,19 @@
 
             <!-- QRIS -->
             <div class="qris-box">
-                <!-- QRIS image from the provided file -->
-                <img src="84214_6076006014426924267.webp" alt="QRIS Pembayaran" />
+                <img src="qris.png" alt="QRIS Pembayaran" />
                 <div class="qris-label">Scan QRIS untuk membayar</div>
             </div>
 
             <!-- Timer -->
             <div class="timer-wrap">
-                <span>⏳ Sisa waktu</span>
+                <span>Sisa waktu</span>
                 <span class="time" id="timerDisplay">10:00</span>
             </div>
 
             <!-- Upload bukti -->
             <div class="upload-area" id="uploadArea">
-                <span class="icon">📎</span>
+                <span class="icon">⬆</span>
                 <div class="hint">Klik atau seret bukti transfer di sini</div>
                 <input type="file" id="fileInput" accept="image/*,.pdf,.jpg,.jpeg,.png" />
                 <div class="file-name" id="fileName"></div>
@@ -1742,9 +1765,9 @@
             if (timeLeft < 0) {
                 clearInterval(timerInterval);
                 timerInterval = null;
-                timerDisplay.textContent = '⏰ Habis';
+                timerDisplay.textContent = 'Habis';
                 timerDisplay.classList.remove('warning');
-                statusMsg.textContent = '⏳ Waktu pembayaran habis. Silakan buka order baru.';
+                statusMsg.textContent = 'Waktu pembayaran habis. Silakan buka order baru.';
                 statusMsg.className = 'status-msg show error';
                 modalConfirm.disabled = true;
                 return;
@@ -1764,10 +1787,9 @@
             const file = this.files[0];
             if (file) {
                 uploadedFile = file;
-                fileName.textContent = '📄 ' + file.name;
+                fileName.textContent = ' ' + file.name;
                 statusMsg.className = 'status-msg';
                 statusMsg.textContent = '';
-                // enable confirm only if timer still running and file uploaded
                 if (timeLeft > 0) {
                     modalConfirm.disabled = false;
                 }
@@ -1802,37 +1824,33 @@
         // ---- Confirm (WhatsApp) ----
         modalConfirm.addEventListener('click', function() {
             if (!uploadedFile) {
-                statusMsg.textContent = '⚠️ Silakan upload bukti transfer terlebih dahulu.';
+                statusMsg.textContent = 'Silakan upload bukti transfer terlebih dahulu.';
                 statusMsg.className = 'status-msg show error';
                 return;
             }
             if (timeLeft <= 0) {
-                statusMsg.textContent = '⏳ Waktu habis. Silakan buka order baru.';
+                statusMsg.textContent = 'Waktu habis. Silakan buka order baru.';
                 statusMsg.className = 'status-msg show error';
                 return;
             }
 
-            // Simulasi "sudah bayar" — user sudah upload bukti, kita lanjut ke WhatsApp
             const service = encodeURIComponent(selectedService);
             const price = selectedPrice;
             const fileNameRaw = uploadedFile.name;
 
-            // Pesan ke WhatsApp dengan detail
             const message =
                 `Halo TAMA! Saya sudah melakukan pembayaran untuk layanan *${selectedService}* sebesar Rp ${new Intl.NumberFormat('id-ID').format(price)}.\n\n` +
-                `📎 Bukti transfer: ${fileNameRaw}\n` +
-                `⏱️ Waktu pembayaran: ${new Date().toLocaleString('id-ID')}\n\n` +
-                `Mohon diproses ya. Terima kasih! 🙏`;
+                `Bukti transfer: ${fileNameRaw}\n` +
+                `Waktu pembayaran: ${new Date().toLocaleString('id-ID')}\n\n` +
+                `Mohon diproses ya. Terima kasih.`;
 
             const waUrl =
                 `https://wa.me/62895391845923?text=${encodeURIComponent(message)}`;
 
-            // Tampilkan status sukses
-            statusMsg.textContent = '✅ Terima kasih! Mengarahkan ke WhatsApp...';
+            statusMsg.textContent = 'Terima kasih! Mengarahkan ke WhatsApp...';
             statusMsg.className = 'status-msg show success';
             modalConfirm.disabled = true;
 
-            // Redirect setelah delay kecil agar user melihat feedback
             setTimeout(() => {
                 window.open(waUrl, '_blank');
                 closeModal();
@@ -1852,12 +1870,10 @@
         modalClose.addEventListener('click', closeModal);
         modalCancel.addEventListener('click', closeModal);
 
-        // close on overlay click
         modalOverlay.addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
 
-        // close with ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && modalOverlay.classList.contains('open')) {
                 closeModal();
@@ -1870,13 +1886,12 @@
             document.getElementById('layanan').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // CTA "Order via WhatsApp" scroll ke layanan
         document.querySelector('.cta .btn[href="#layanan"]')?.addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('layanan').scrollIntoView({ behavior: 'smooth' });
         });
 
-        console.log('✅ TAMA Order System siap!');
+        console.log('TAMA Order System siap!');
     </script>
 
 </body>
